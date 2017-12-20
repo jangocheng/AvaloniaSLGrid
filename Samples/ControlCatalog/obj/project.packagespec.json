@@ -1,0 +1,134 @@
+﻿{
+  "version": "0.4.0",
+  "restore": {
+    "projectUniqueName": "D:\\Work\\moon\\Samples\\ControlCatalog\\ControlCatalog.csproj",
+    "projectName": "ControlCatalog",
+    "projectPath": "D:\\Work\\moon\\Samples\\ControlCatalog\\ControlCatalog.csproj",
+    "outputPath": "D:\\Work\\moon\\Samples\\ControlCatalog\\obj\\",
+    "projectStyle": "PackageReference",
+    "originalTargetFrameworks": [
+      "netstandard2.0"
+    ],
+    "frameworks": {
+      "netstandard2.0": {
+        "projectReferences": {}
+      }
+    }
+  },
+  "frameworks": {
+    "netstandard2.0": {
+      "dependencies": {
+        "Autofac": {
+          "target": "Package",
+          "version": "[4.6.1, )"
+        },
+        "Avalonia": {
+          "target": "Package",
+          "version": "[0.5.2-build4356-alpha, )"
+        },
+        "Avalonia.Controls.PanAndZoom": {
+          "target": "Package",
+          "version": "[1.0.0-build219-alpha, )"
+        },
+        "Avalonia.Desktop": {
+          "target": "Package",
+          "version": "[0.5.2-build4356-alpha, )"
+        },
+        "Avalonia.Skia.Linux.Natives": {
+          "target": "Package",
+          "version": "[1.57.1.4, )"
+        },
+        "Avalonia.Xaml.Interactions": {
+          "target": "Package",
+          "version": "[0.5.2-build493-alpha, )"
+        },
+        "Avalonia.Xaml.Interactions.Custom": {
+          "target": "Package",
+          "version": "[0.5.2-build493-alpha, )"
+        },
+        "Microsoft.NETCore.DotNetHostPolicy": {
+          "target": "Package",
+          "version": "[2.0.0, )"
+        },
+        "Microsoft.NETCore.Runtime.CoreCLR": {
+          "target": "Package",
+          "version": "[2.0.0, )"
+        },
+        "NETStandard.Library": {
+          "suppressParent": "All",
+          "target": "Package",
+          "version": "[1.6.1, )",
+          "autoReferenced": true
+        },
+        "Serilog": {
+          "target": "Package",
+          "version": "[2.5.0, )"
+        },
+        "Serilog.Sinks.Trace": {
+          "target": "Package",
+          "version": "[2.1.0, )"
+        },
+        "SharpDX": {
+          "target": "Package",
+          "version": "[4.0.1, )"
+        },
+        "SharpDX.DXGI": {
+          "target": "Package",
+          "version": "[4.0.1, )"
+        },
+        "SharpDX.Direct2D1": {
+          "target": "Package",
+          "version": "[4.0.1, )"
+        },
+        "SharpDX.Direct3D11": {
+          "target": "Package",
+          "version": "[4.0.1, )"
+        },
+        "SkiaSharp": {
+          "target": "Package",
+          "version": "[1.57.1, )"
+        },
+        "Splat": {
+          "target": "Package",
+          "version": "[2.0.0, )"
+        },
+        "Sprache": {
+          "target": "Package",
+          "version": "[2.1.0, )"
+        },
+        "System.Collections.Immutable": {
+          "target": "Package",
+          "version": "[1.4.0, )"
+        },
+        "System.IO.Compression": {
+          "target": "Package",
+          "version": "[4.3.0, )"
+        },
+        "System.Reactive": {
+          "target": "Package",
+          "version": "[3.1.1, )"
+        },
+        "System.Reactive.Core": {
+          "target": "Package",
+          "version": "[3.1.1, )"
+        },
+        "System.Reactive.Interfaces": {
+          "target": "Package",
+          "version": "[3.1.1, )"
+        },
+        "System.Reactive.Linq": {
+          "target": "Package",
+          "version": "[3.1.1, )"
+        },
+        "System.Reactive.PlatformServices": {
+          "target": "Package",
+          "version": "[3.1.1, )"
+        },
+        "System.ValueTuple": {
+          "target": "Package",
+          "version": "[4.3.1, )"
+        }
+      }
+    }
+  }
+}
