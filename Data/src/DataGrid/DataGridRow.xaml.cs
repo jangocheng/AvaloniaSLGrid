@@ -7,11 +7,14 @@ using System.ComponentModel;
 using System.Diagnostics; 
 using System.Diagnostics.CodeAnalysis; 
 using System.Windows.Input;
-using System.Windows.Media; 
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using System.Windows.Controls;
- 
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
+using Avalonia.Markup.Xaml.Templates;
+using Avalonia.Media;
+using Avalonia.Styling;
+
 namespace System.Windows.Controlsb1
 {
     [TemplatePart(Name = DATAGRIDROW_elementCells, Type = typeof(Canvas))] 
@@ -188,7 +191,7 @@ namespace System.Windows.Controlsb1
             set { SetValue(BackgroundProperty, value); } 
         } 
 
-        public static readonly StyledProperty BackgroundProperty = 
+        public static readonly StyledProperty<> BackgroundProperty = 
             AvaloniaProperty.Register(
                 "Background",
                 typeof(Brush), 
@@ -1031,7 +1034,7 @@ namespace System.Windows.Controlsb1
             this._bottomGridline = new Line(); 
             this._bottomGridline.Stroke = this.OwningGrid.HorizontalGridlinesBrush;
             this._bottomGridline.StrokeThickness = DataGrid.HorizontalGridlinesThickness;
-            this._bottomGridline.SetValue(System.Windows.Controls.Canvas.ZIndexProperty, 2); 
+            this._bottomGridline.SetValue(ZIndexProperty, 2); 
             this.OwningGrid.AddDisplayedHorizontalGridline(this._bottomGridline); 
         }
  

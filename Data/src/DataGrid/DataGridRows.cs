@@ -6,7 +6,10 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Controls;
- 
+using Avalonia.Controls;
+using Avalonia.Markup.Xaml.Templates;
+using Avalonia.Styling;
+
 namespace System.Windows.Controlsb1
 { 
     public partial class DataGrid

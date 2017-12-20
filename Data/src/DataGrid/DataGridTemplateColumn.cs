@@ -3,6 +3,8 @@
 // Please see http://go.microsoft.com/fwlink/?LinkID=111693 for details.
 // All other rights reserved. 
 
+using Avalonia.Markup.Xaml.Templates;
+
 namespace System.Windows.Controlsb1
 { 
     public class DataGridTemplateColumn : DataGridColumnBase 

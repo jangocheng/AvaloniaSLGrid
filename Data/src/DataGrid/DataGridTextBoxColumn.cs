@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Media;
 
@@ -95,7 +96,7 @@ namespace System.Windows.Controlsb1
         { 
             get 
             {
-                return this._fontStyle.HasValue ? this._fontStyle.Value : (new TextBlock()).FontStyle; 
+                return _fontStyle ?? (new TextBlock()).FontStyle; 
             }
             set
             { 

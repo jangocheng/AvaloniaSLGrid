@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Reflection; 
 using System.Windows.Data;
 using System.Windows.Controls;
+using Avalonia.Controls;
+using Avalonia.Markup.Xaml.Data;
 
 namespace System.Windows.Controlsb1
 {
