@@ -18,6 +18,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
+using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml.Templates;
@@ -555,16 +556,14 @@ namespace System.Windows.Controlsb1
         {
             get { return (DataGridGridlines)GetValue(GridlinesVisibilityProperty); }
             set { SetValue(GridlinesVisibilityProperty, value); } 
-        } 
+        }
 
         /// <summary> 
         /// Identifies the Gridlines dependency property.
         /// </summary>
-        public static readonly StyledProperty GridlinesVisibilityProperty = 
-            AvaloniaProperty.Register(
+        public static readonly StyledProperty<DataGridGridlines> GridlinesVisibilityProperty =
+            AvaloniaProperty.Register<DataGrid, DataGridGridlines>(
                 "GridlinesVisibility",
-                typeof(DataGridGridlines), 
-                typeof(DataGrid), 
                 new PropertyMetadata(OnGridlinesVisibilityPropertyChanged));
  
         /// <summary>
@@ -596,17 +595,15 @@ namespace System.Windows.Controlsb1
         { 
             get { return (DataGridHeaders)GetValue(HeadersVisibilityProperty); }
             set { SetValue(HeadersVisibilityProperty, value); }
-        } 
+        }
 
         /// <summary>
         /// Identifies the HeadersVisibility dependency property. 
         /// </summary> 
-        public static readonly StyledProperty HeadersVisibilityProperty =
-            AvaloniaProperty.Register( 
-                "HeadersVisibility",
-                typeof(DataGridHeaders),
-                typeof(DataGrid), 
-                new PropertyMetadata(OnHeadersVisibilityPropertyChanged));
+        public static readonly StyledProperty<DataGridHeaders> HeadersVisibilityProperty =
+            AvaloniaProperty.Register<DataGrid, DataGridHeaders>(
+                "HeadersVisibility", default(DataGridHeaders), false, BindingMode.OneWay, null,
+                OnHeadersVisibilityPropertyChanged);
 
         /// <summary> 
         /// HeadersVisibilityProperty property changed handler. 
@@ -772,18 +769,16 @@ namespace System.Windows.Controlsb1
         /// </summary> 
         public bool IsReadOnly
         { 
-            get { return (bool)GetValue(IsReadOnlyProperty); }
-            set { SetValue(IsReadOnlyProperty, value); }
-        } 
+            get => (bool)(object)GetValue(IsReadOnlyProperty);
+            set => SetValue(IsReadOnlyProperty, value);
+        }
 
         /// <summary>
         /// Identifies the IsReadOnly dependency property. 
         /// </summary> 
-        public static readonly StyledProperty IsReadOnlyProperty =
-            AvaloniaProperty.Register( 
+        public static readonly StyledProperty<bool> IsReadOnlyProperty =
+            AvaloniaProperty.Register<DataGrid, bool>(
                 "IsReadOnly",
-                typeof(bool),
-                typeof(DataGrid), 
                 new PropertyMetadata(OnIsReadOnlyPropertyChanged));
 
         /// <summary> 
