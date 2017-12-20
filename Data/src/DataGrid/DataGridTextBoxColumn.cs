@@ -4,11 +4,13 @@
 // All other rights reserved. 
 
 using System.Windows.Input;
-using System.Windows.Mediab1;
-using System.Windows.Media;
 using System.ComponentModel;
 using System.Windows.Controls;
-using System.Windowsb1;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Layout;
+using Avalonia.Media;
+
 
 namespace System.Windows.Controlsb1
 {
@@ -28,7 +30,7 @@ namespace System.Windows.Controlsb1
         #region Data 
  
         private TextBox _editingTextBox;
-        private FontFamily _fontFamily; 
+        private string _fontFamily; 
         private double _fontSize;
         private FontStyle? _fontStyle;
         private FontWeight? _fontWeight; 
@@ -38,7 +40,7 @@ namespace System.Windows.Controlsb1
  
         public DataGridTextBoxColumn()
         { 
-            this._fontFamily = new FontFamily(DATAGRIDTEXTBOXCOLUMN_defaultFontFamily);
+            this._fontFamily = DATAGRIDTEXTBOXCOLUMN_defaultFontFamily;
             this._fontSize = 11;
         } 
 
@@ -47,8 +49,10 @@ namespace System.Windows.Controlsb1
         /// <summary> 
         /// Gets or sets the font name.
         /// </summary> 
-        [TypeConverter(typeof(System.Windows.Mediab1.FontFamilyConverter))]
-        public FontFamily FontFamily
+        
+        //TODO: remove this typeconverter - not needed
+        //[TypeConverter(typeof(System.Windows.Mediab1.FontFamilyConverter))]
+        public string FontFamily
         { 
             get
             {
@@ -185,7 +189,7 @@ namespace System.Windows.Controlsb1
         /// Called by the DataGrid control when this column asks for its elements to be
         /// updated, because a property changed.
         /// </summary> 
-        public override void UpdateElement(FrameworkElement element, string propertyName)
+        public override void UpdateElement(Control element, string propertyName)
         {
             if (element == null) 
             { 
@@ -269,13 +273,13 @@ namespace System.Windows.Controlsb1
 
         #region Protected Methods
  
-        protected override FrameworkElement GenerateEditingElement() 
+        protected override Control GenerateEditingElement() 
         {
             this._editingTextBox = new TextBox(); 
             this._editingTextBox.Margin = new Thickness(3, 0, 3, 0);
-            this._editingTextBox.BorderThickness = new Thickness(0);
+            this._editingTextBox.BorderThickness = 0;
             this._editingTextBox.VerticalAlignment = VerticalAlignment.Center; 
-            this._editingTextBox.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Transparent);
+            this._editingTextBox.Background = new SolidColorBrush(Colors.Transparent);
             this._editingTextBox.FontFamily = this.FontFamily;
             this._editingTextBox.FontSize = this.FontSize; 
             if (this._fontStyle.HasValue) 
@@ -294,7 +298,7 @@ namespace System.Windows.Controlsb1
             return this._editingTextBox;
         } 
 
-        protected override FrameworkElement GenerateElement()
+        protected override Control GenerateElement()
         { 
             TextBlock textBlockElement = new TextBlock(); 
             textBlockElement.Margin = new Thickness(4, 0, 4, 0);

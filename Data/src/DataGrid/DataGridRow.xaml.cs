@@ -188,14 +188,14 @@ namespace System.Windows.Controlsb1
             set { SetValue(BackgroundProperty, value); } 
         } 
 
-        public static readonly DependencyProperty BackgroundProperty = 
-            DependencyProperty.Register(
+        public static readonly StyledProperty BackgroundProperty = 
+            AvaloniaProperty.Register(
                 "Background",
                 typeof(Brush), 
                 typeof(DataGridRow),
                 new PropertyMetadata(OnBackgroundPropertyChanged));
  
-        private static void OnBackgroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        private static void OnBackgroundPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e) 
         {
             DataGridRow source = d as DataGridRow; 
             if (source != null && source.RootElement != null && e.OldValue != e.NewValue)
@@ -218,8 +218,8 @@ namespace System.Windows.Controlsb1
         /// <summary> 
         /// Identifies the DetailsTemplate dependency property.
         /// </summary>
-        public static readonly DependencyProperty DetailsTemplateProperty = 
-            DependencyProperty.Register(
+        public static readonly StyledProperty DetailsTemplateProperty = 
+            AvaloniaProperty.Register(
                 "DetailsTemplate",
                 typeof(DataTemplate), 
                 typeof(DataGridRow), 
@@ -229,8 +229,8 @@ namespace System.Windows.Controlsb1
         /// DetailsTemplateProperty property changed handler.
         /// </summary> 
         /// <param name="d">DataGridRow that changed its DetailsTemplate.</param>
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param>
-        private static void OnDetailsTemplatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param>
+        private static void OnDetailsTemplatePropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e) 
         { 
             DataGridRow source = d as DataGridRow;
             Debug.Assert(source != null, 
@@ -274,8 +274,8 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the Header dependency property. 
         /// </summary>
-        public static readonly DependencyProperty HeaderProperty =
-            DependencyProperty.Register( 
+        public static readonly StyledProperty HeaderProperty =
+            AvaloniaProperty.Register( 
                 "Header", 
                 typeof(object),
                 typeof(DataGridRow), 
@@ -285,8 +285,8 @@ namespace System.Windows.Controlsb1
         /// HeaderProperty property changed handler.
         /// </summary>
         /// <param name="d">DataGridRow that changed its Header.</param> 
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param> 
-        private static void OnHeaderPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param> 
+        private static void OnHeaderPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         { 
             DataGridRow source = d as DataGridRow;
             Debug.Assert(source != null,
@@ -309,14 +309,14 @@ namespace System.Windows.Controlsb1
             set { SetValue(HeaderStyleProperty, value); }
         }
  
-        public static readonly DependencyProperty HeaderStyleProperty =
-            DependencyProperty.Register(
+        public static readonly StyledProperty HeaderStyleProperty =
+            AvaloniaProperty.Register(
                 "HeaderStyle", 
                 typeof(Style), 
                 typeof(DataGridRow),
                 new PropertyMetadata(OnHeaderStylePropertyChanged)); 
 
-        private static void OnHeaderStylePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnHeaderStylePropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         { 
             Style newStyle = e.NewValue as Style;
             if (newStyle != null)
@@ -942,7 +942,7 @@ namespace System.Windows.Controlsb1
                 if (_detailsGrid.Children.Count > 0)
                 {
                     // Should only be 1 unless the user adds something by walking up the tree 
-                    FrameworkElement detailsContent = _detailsGrid.Children[0] as FrameworkElement; 
+                    Control detailsContent = _detailsGrid.Children[0] as Control; 
                     if (detailsContent != null)
                     { 
                         // Detach the SizeChanged EventHandler we attached
@@ -952,7 +952,7 @@ namespace System.Windows.Controlsb1
                     }
                 } 
  
-                FrameworkElement newDetailsContent = this.ActualDetailsTemplate.LoadContent() as FrameworkElement;
+                Control newDetailsContent = this.ActualDetailsTemplate.LoadContent() as Control;
                 _appliedDetailsTemplate = this.ActualDetailsTemplate; 
 
                 if (newDetailsContent != null)
@@ -1307,7 +1307,7 @@ namespace System.Windows.Controlsb1
  
         // Gets that height that the DetailsContent would like to be.  We need to measure it to know what
         // height we want to animate to.  Subsequently, we just update that height in response to SizeChanged
-        private void EnsureDetailsDesiredHeight(FrameworkElement detailsContent) 
+        private void EnsureDetailsDesiredHeight(Control detailsContent) 
         {
             Debug.Assert(_detailsElement != null && detailsContent != null && _detailsGrid.Children.Contains(detailsContent));
             Debug.Assert(this.OwningGrid != null); 
@@ -1350,7 +1350,7 @@ namespace System.Windows.Controlsb1
             if (_detailsElement != null && _detailsGrid.Children.Count > 0) 
             {
                 // Should only ever be 1 but just in case 
-                FrameworkElement detailsContent = _detailsGrid.Children[0] as FrameworkElement;
+                Control detailsContent = _detailsGrid.Children[0] as Control;
                 if (detailsContent != null)
                 { 
                     // Detach the SizeChanged EventHandler we attached

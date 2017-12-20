@@ -4,8 +4,11 @@
 // All other rights reserved. 
 
 using System.Diagnostics;
-using System.Windows.Data; 
- 
+using Avalonia.Controls;
+using Avalonia.Data;
+using Avalonia.Markup.Xaml.Data;
+using Avalonia.Styling;
+
 namespace System.Windows.Controlsb1
 { 
     public abstract class DataGridBoundColumnBase : DataGridColumnBase
@@ -163,7 +166,7 @@ namespace System.Windows.Controlsb1
                         if (this._displayMemberBinding.Converter == null) 
                         {
                             dataGridValueConverter = new DataGridValueConverter(this);
-                            dataGridValueConverter.DataConversionError += new EventHandler<DataGridDataErrorEventArgs>(DataGridValueConverter_DataConversionError); 
+                            dataGridValueConverter.DataConversionError += DataGridValueConverter_DataConversionError; 
                             this._displayMemberBinding.Converter = dataGridValueConverter;
                             if (this._displayMemberBinding.ConverterCulture == null)
                             { 
@@ -172,13 +175,8 @@ namespace System.Windows.Controlsb1
                         } 
 
                         // Apply the new Binding to existing rows in the DataGrid
-                        if (this.OwningGrid != null) 
-                        {
-                            //
- 
- 
-                            this.OwningGrid.OnColumnDisplayMemberBindingChanged(this);
-                        } 
+                        //
+                        OwningGrid?.OnColumnDisplayMemberBindingChanged(this);
                     }
 
                     // 
@@ -189,10 +187,7 @@ namespace System.Windows.Controlsb1
         //
         public Style EditingElementStyle 
         {
-            get
-            { 
-                return _editingElementStyle;
-            }
+            get => _editingElementStyle;
             set 
             { 
                 if (_editingElementStyle != value)
@@ -207,20 +202,13 @@ namespace System.Windows.Controlsb1
         //
         public Style ElementStyle 
         {
-            get
-            { 
-                return _elementStyle;
-            }
+            get => _elementStyle;
             set 
-            { 
-                if (_elementStyle != value)
-                { 
-                    _elementStyle = value;
-                    if (this.OwningGrid != null)
-                    { 
-                        this.OwningGrid.OnColumnElementStyleChanged(this);
-                    }
-                } 
+            {
+                if (_elementStyle == value) return;
+
+                _elementStyle = value;
+                OwningGrid?.OnColumnElementStyleChanged(this);
             } 
         }
  
@@ -247,19 +235,19 @@ namespace System.Windows.Controlsb1
  
         #region Protected Methods
 
-        protected abstract FrameworkElement GenerateEditingElement(); 
-        protected abstract FrameworkElement GenerateElement(); 
+        protected abstract Control GenerateEditingElement(); 
+        protected abstract Control GenerateElement(); 
 
         #endregion Protected Methods 
 
         #region Internal Methods
  
-        internal FrameworkElement GenerateEditingElementInternal()
+        internal Control GenerateEditingElementInternal()
         {
             return GenerateEditingElement(); 
         } 
 
-        internal FrameworkElement GenerateElementInternal() 
+        internal Control GenerateElementInternal() 
         {
             return GenerateElement();
         } 

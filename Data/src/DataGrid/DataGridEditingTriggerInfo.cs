@@ -4,7 +4,8 @@
 // All other rights reserved. 
 
 using System.Windows.Input;
- 
+using Avalonia.Input;
+
 namespace System.Windows.Controlsb1
 {
     public class DataGridEditingTriggerInfo 

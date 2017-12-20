@@ -12,7 +12,7 @@ using System.Windows.Shapes;
 
 namespace System.Windows.Controlsb1
 {
-    [TemplatePart(Name = DATAGRIDROWHEADER_elementRootName, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = DATAGRIDROWHEADER_elementRootName, Type = typeof(Control))]
  
     [TemplatePart(Name = DATAGRIDROWHEADER_stateNormal, Type = typeof(Storyboard))] 
     [TemplatePart(Name = DATAGRIDROWHEADER_stateNormalCurrentRow, Type = typeof(Storyboard))]
@@ -159,7 +159,7 @@ namespace System.Windows.Controlsb1
 
         #region Data 
  
-        private FrameworkElement _rootElement;
+        private Control _rootElement;
         private Duration?[] _storyboardDuration; // 
 
         #endregion Data
@@ -185,8 +185,8 @@ namespace System.Windows.Controlsb1
             set { SetValue(SeparatorBrushProperty, value); }
         }
  
-        public static readonly DependencyProperty SeparatorBrushProperty = 
-            DependencyProperty.Register("SeparatorBrush",
+        public static readonly StyledProperty SeparatorBrushProperty = 
+            AvaloniaProperty.Register("SeparatorBrush",
                 typeof(Brush), 
                 typeof(DataGridRowHeader),
                 null);
@@ -204,8 +204,8 @@ namespace System.Windows.Controlsb1
             set { SetValue(SeparatorVisibilityProperty, value); }
         } 
  
-        public static readonly DependencyProperty SeparatorVisibilityProperty =
-            DependencyProperty.Register("SeparatorVisibility", 
+        public static readonly StyledProperty SeparatorVisibilityProperty =
+            AvaloniaProperty.Register("SeparatorVisibility", 
                 typeof(Visibility),
                 typeof(DataGridRowHeader),
                 null); 
@@ -276,7 +276,7 @@ namespace System.Windows.Controlsb1
         {
             base.OnApplyTemplate(); 
  
-            this._rootElement = GetTemplateChild(DATAGRIDROWHEADER_elementRootName) as FrameworkElement;
+            this._rootElement = GetTemplateChild(DATAGRIDROWHEADER_elementRootName) as Control;
             if (this._rootElement != null) 
             {
                 ApplyRowStatus(false /*animate*/);

@@ -4,19 +4,20 @@
 // All other rights reserved. 
 
 using System.Collections.Generic;
-using System.Diagnostics; 
- 
+using System.Diagnostics;
+using Avalonia;
+
 namespace System.Windows.Controlsb1
 { 
     internal static class Extensions
     {
-        private static Dictionary<DependencyObject, Dictionary<DependencyProperty, bool>> _suspendedHandlers = new Dictionary<DependencyObject, Dictionary<DependencyProperty, bool>>(); 
+        private static Dictionary<AvaloniaObject, Dictionary<AvaloniaProperty, bool>> _suspendedHandlers = new Dictionary<AvaloniaObject, Dictionary<AvaloniaProperty, bool>>(); 
 
-        public static bool IsHandlerSuspended(this DependencyObject obj, DependencyProperty dependencyProperty)
+        public static bool IsHandlerSuspended(this AvaloniaObject obj, AvaloniaProperty AvaloniaProperty)
         { 
             if (_suspendedHandlers.ContainsKey(obj)) 
             {
-                return _suspendedHandlers[obj].ContainsKey(dependencyProperty); 
+                return _suspendedHandlers[obj].ContainsKey(AvaloniaProperty); 
             }
             else
             { 
@@ -24,7 +25,7 @@ namespace System.Windows.Controlsb1
             }
         } 
  
-        public static void SetValueNoCallback(this DependencyObject obj, DependencyProperty property, object value)
+        public static void SetValueNoCallback(this AvaloniaObject obj, AvaloniaProperty property, object value)
         { 
             obj.SuspendHandler(property, true);
             try
@@ -38,28 +39,28 @@ namespace System.Windows.Controlsb1
 
         }
  
-        private static void SuspendHandler(this DependencyObject obj, DependencyProperty dependencyProperty, bool suspend)
+        private static void SuspendHandler(this AvaloniaObject obj, AvaloniaProperty AvaloniaProperty, bool suspend)
         {
             if (_suspendedHandlers.ContainsKey(obj)) 
             { 
-                Dictionary<DependencyProperty, bool> suspensions = _suspendedHandlers[obj];
+                Dictionary<AvaloniaProperty, bool> suspensions = _suspendedHandlers[obj];
  
                 if (suspend)
                 {
-                    Debug.Assert(!suspensions.ContainsKey(dependencyProperty)); 
-                    suspensions[dependencyProperty] = true; // true = dummy value
+                    Debug.Assert(!suspensions.ContainsKey(AvaloniaProperty)); 
+                    suspensions[AvaloniaProperty] = true; // true = dummy value
                 }
                 else 
                 { 
-                    Debug.Assert(suspensions.ContainsKey(dependencyProperty));
-                    suspensions.Remove(dependencyProperty); 
+                    Debug.Assert(suspensions.ContainsKey(AvaloniaProperty));
+                    suspensions.Remove(AvaloniaProperty); 
                 }
             }
             else 
             {
                 Debug.Assert(suspend);
-                _suspendedHandlers[obj] = new Dictionary<DependencyProperty, bool>(); 
-                _suspendedHandlers[obj][dependencyProperty] = true; 
+                _suspendedHandlers[obj] = new Dictionary<AvaloniaProperty, bool>(); 
+                _suspendedHandlers[obj][AvaloniaProperty] = true; 
             }
         } 
     }

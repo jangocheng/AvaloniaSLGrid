@@ -9,7 +9,7 @@ namespace System.Windows.Controlsb1
     {
         public DataGridPrepareCellEditEventArgs(DataGridColumnBase dataGridColumn, 
                                             DataGridRow dataGridRow,
-                                            FrameworkElement element,
+                                            Control element,
                                             DataGridEditingTriggerInfo editingTriggerInfo) : base(dataGridColumn, dataGridRow, element) 
         {
             this.EditingTriggerInfo = editingTriggerInfo;

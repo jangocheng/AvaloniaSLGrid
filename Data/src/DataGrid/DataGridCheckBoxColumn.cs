@@ -6,7 +6,14 @@
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Controls;
- 
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.Layout;
+using Avalonia.Markup.Xaml.Data;
+using Avalonia.Styling;
+using Portable.Xaml;
+
 namespace System.Windows.Controlsb1
 { 
     public class DataGridCheckBoxColumn : DataGridBoundColumnBase
@@ -139,10 +146,10 @@ namespace System.Windows.Controlsb1
                     editingTriggerInfo.MouseButtonEventArgs != null)
                 { 
                     // Editing was triggered by a mouse click
-                    FrameworkElement checkBox = editingTriggerInfo.MouseButtonEventArgs.Source as FrameworkElement;
+                    Control checkBox = editingTriggerInfo.MouseButtonEventArgs.Source as Control;
                     while (checkBox != null && !(checkBox is CheckBox)) 
                     { 
-                        checkBox = checkBox.Parent as FrameworkElement;
+                        checkBox = checkBox.Parent as Control;
                     } 
                     if (checkBox != null)
                     {
@@ -177,7 +184,7 @@ namespace System.Windows.Controlsb1
         /// Called by the DataGrid control when this column asks for its elements to be
         /// updated, because its CheckBoxContentBinding or IsThreeState property changed.
         /// </summary> 
-        public override void UpdateElement(FrameworkElement element, string propertyName) 
+        public override void UpdateElement(Control element, string propertyName) 
         {
             if (element == null) 
             {
@@ -207,7 +214,7 @@ namespace System.Windows.Controlsb1
  
         #region Protected Methods
  
-        protected override FrameworkElement GenerateEditingElement()
+        protected override Control GenerateEditingElement()
         {
             this._editingCheckBox = new CheckBox(); 
             //
@@ -216,7 +223,7 @@ namespace System.Windows.Controlsb1
             return this._editingCheckBox; 
         }
  
-        protected override FrameworkElement GenerateElement()
+        protected override Control GenerateElement()
         {
             ReadOnlyCheckBox checkBoxElement = new ReadOnlyCheckBox(); 
             ConfigureCheckBox(checkBoxElement);

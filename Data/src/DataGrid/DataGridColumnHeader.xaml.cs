@@ -5,13 +5,14 @@
 
 using System.Diagnostics;
 using System.Windows.Input; 
-using System.Windows.Media; 
-using System.Windows.Shapes;
- 
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Input;
+
 namespace System.Windows.Controlsb1
 {
     // 
-    [TemplatePart(Name = DATAGRIDCOLUMNHEADER_elementRoot, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = DATAGRIDCOLUMNHEADER_elementRoot, Type = typeof(Control))]
 
     /* 
  
@@ -60,8 +61,8 @@ namespace System.Windows.Controlsb1
             set { SetValue(SeparatorBrushProperty, value); }
         } 
  
-        public static readonly DependencyProperty SeparatorBrushProperty =
-            DependencyProperty.Register("SeparatorBrush", 
+        public static readonly StyledProperty SeparatorBrushProperty =
+            AvaloniaProperty.Register("SeparatorBrush", 
                 typeof(Brush),
                 typeof(DataGridColumnHeader),
                 null); 
@@ -79,13 +80,13 @@ namespace System.Windows.Controlsb1
             set { SetValue(SeparatorVisibilityProperty, value); } 
         } 
 
-        public static readonly DependencyProperty SeparatorVisibilityProperty = 
-            DependencyProperty.Register("SeparatorVisibility",
+        public static readonly StyledProperty SeparatorVisibilityProperty = 
+            AvaloniaProperty.Register("SeparatorVisibility",
                 typeof(Visibility),
                 typeof(DataGridColumnHeader), 
                 new PropertyMetadata(OnSeparatorVisibilityPropertyChanged));
 
-        private static void OnSeparatorVisibilityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        private static void OnSeparatorVisibilityPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e) 
         { 
             DataGridColumnHeader source = d as DataGridColumnHeader;
             Debug.Assert(source != null, 
@@ -307,16 +308,16 @@ namespace System.Windows.Controlsb1
             } 
 
             if (distanceFromRight <= DATAGRIDCOLUMNHEADER_resizeRegionWidth && currentColumn != null && CanResizeColumn(currentColumn))
-            { 
-                this.Cursor = Cursors.SizeWE;
+            {
+                this.Cursor = new Cursor(StandardCursorType.SizeWestEast);
             }
             else if (distanceFromLeft <= DATAGRIDCOLUMNHEADER_resizeRegionWidth && previousColumn != null && CanResizeColumn(previousColumn)) 
             { 
-                this.Cursor = Cursors.SizeWE;
+                this.Cursor = new Cursor(StandardCursorType.SizeWestEast);
             } 
             else
             {
-                this.Cursor = Cursors.Arrow; 
+                this.Cursor = new Cursor(StandardCursorType.Arrow);
             }
         }
  

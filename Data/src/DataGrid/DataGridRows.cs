@@ -153,11 +153,11 @@ namespace System.Windows.Controlsb1
         /// <summary> 
         /// Returns the DetailsVisibility of the DataGridRow that contains the given element
         /// </summary> 
-        /// <param name="element">FrameworkElement contained in the row</param>
+        /// <param name="element">Control contained in the row</param>
         /// <returns>If the element is valid then Visible or Collapsed based on the DetailsVisibility of the DataGridRow
         /// containing the element; otherwise, throws an ArgumentException 
         /// </returns>
-        public Visibility GetRowDetailsVisibility(FrameworkElement element)
+        public Visibility GetRowDetailsVisibility(Control element)
         { 
             // Walk up the tree to find the DataGridRow that contains the element 
             object parent = element;
@@ -387,14 +387,14 @@ namespace System.Windows.Controlsb1
             return rowIndex >= this._firstDisplayedRowIndex && rowIndex <= this._lastDisplayedRowIndex; 
         }
  
-        // detailsElement is the FrameworkElement created by the DetailsTemplate
-        internal void OnCleaningRowDetails(FrameworkElement detailsElement)
+        // detailsElement is the Control created by the DetailsTemplate
+        internal void OnCleaningRowDetails(Control detailsElement)
         { 
             OnCleaningRowDetails(new DataGridRowDetailsEventArgs(detailsElement));
         }
  
-        // detailsElement is the FrameworkElement created by the DetailsTemplate 
-        internal void OnPreparingRowDetails(FrameworkElement detailsElement)
+        // detailsElement is the Control created by the DetailsTemplate 
+        internal void OnPreparingRowDetails(Control detailsElement)
         { 
             OnPreparingRowDetails(new DataGridRowDetailsEventArgs(detailsElement));
         }

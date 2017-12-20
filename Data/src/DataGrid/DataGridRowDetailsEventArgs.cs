@@ -7,12 +7,12 @@ namespace System.Windows.Controlsb1
 { 
     public class DataGridRowDetailsEventArgs : EventArgs 
     {
-        public DataGridRowDetailsEventArgs(FrameworkElement detailsElement) 
+        public DataGridRowDetailsEventArgs(Control detailsElement) 
         {
             this.DetailsElement = detailsElement;
         } 
 
-        public FrameworkElement DetailsElement
+        public Control DetailsElement
         { 
             get; 
             private set;

@@ -14,7 +14,16 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Controls;
- 
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Shapes;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.Markup.Xaml.Templates;
+using Avalonia.Media;
+using Avalonia.Styling;
+
 namespace System.Windows.Controlsb1
 {
     [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling")] 
@@ -24,7 +33,7 @@ namespace System.Windows.Controlsb1
     [TemplatePart(Name = DataGrid.DATAGRID_elementRootName, Type = typeof(Grid))]
     [TemplatePart(Name = DataGrid.DATAGRID_elementCellsName, Type = typeof(Canvas))]
     [TemplatePart(Name = DataGrid.DATAGRID_elementColumnHeadersName, Type = typeof(Canvas))] 
-    [TemplatePart(Name = DataGrid.DATAGRID_elementFocusVisualName, Type = typeof(FrameworkElement))] 
+    [TemplatePart(Name = DataGrid.DATAGRID_elementFocusVisualName, Type = typeof(Control))] 
     //
  
 
@@ -99,7 +108,7 @@ namespace System.Windows.Controlsb1
         // 
         private int _displayedVerticalGridlineCount;
         private DataGridCellCoordinates _currentCellCoordinates; 
-        private FrameworkElement _currentCellFocusVisual;
+        private Control _currentCellFocusVisual;
         private List<DataGridCell> _editingBoundCells;
         private int _editingBoundElementGotFocusListeners; 
         private int _editingBoundElementLostFocusListeners; // Number of subscribers for the LostFocus event of the element of a edited cell in a bound column
@@ -251,14 +260,14 @@ namespace System.Windows.Controlsb1
         /// <summary> 
         /// Identifies the AlternatingRowBackground dependency property. 
         /// </summary>
-        public static readonly DependencyProperty AlternatingRowBackgroundProperty = 
-            DependencyProperty.Register(
+        public static readonly StyledProperty AlternatingRowBackgroundProperty = 
+            AvaloniaProperty.Register(
                 "AlternatingRowBackground",
                 typeof(Brush), 
                 typeof(DataGrid),
                 new PropertyMetadata(OnAlternatingRowBackgroundPropertyChanged));
  
-        private static void OnAlternatingRowBackgroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        private static void OnAlternatingRowBackgroundPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e) 
         {
             DataGrid dataGrid = d as DataGrid; 
             if (dataGrid != null)
@@ -295,14 +304,14 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the AutoGenerateColumns dependency property. 
         /// </summary> 
-        public static readonly DependencyProperty AutoGenerateColumnsProperty =
-            DependencyProperty.Register( 
+        public static readonly StyledProperty AutoGenerateColumnsProperty =
+            AvaloniaProperty.Register( 
                 "AutoGenerateColumns",
                 typeof(bool),
                 typeof(DataGrid), 
                 new PropertyMetadata(OnAutoGenerateColumnsPropertyChanged));
 
-        private static void OnAutoGenerateColumnsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        private static void OnAutoGenerateColumnsPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e) 
         { 
             bool value = (bool)e.NewValue;
  
@@ -331,8 +340,8 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the CanUserResizeColumns dependency property. 
         /// </summary> 
-        public static readonly DependencyProperty CanUserResizeColumnsProperty =
-            DependencyProperty.Register( 
+        public static readonly StyledProperty CanUserResizeColumnsProperty =
+            AvaloniaProperty.Register( 
                 "CanUserResizeColumns",
                 typeof(bool),
                 typeof(DataGrid), 
@@ -352,8 +361,8 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the ColumnHeadersHeight dependency property. 
         /// </summary>
-        public static readonly DependencyProperty ColumnHeadersHeightProperty =
-            DependencyProperty.Register( 
+        public static readonly StyledProperty ColumnHeadersHeightProperty =
+            AvaloniaProperty.Register( 
                 "ColumnHeadersHeight",
                 typeof(double),
                 typeof(DataGrid), 
@@ -363,8 +372,8 @@ namespace System.Windows.Controlsb1
         /// ColumnHeadersHeightProperty property changed handler.
         /// </summary>
         /// <param name="d">DataGrid that changed its ColumnHeadersHeight.</param> 
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param>
-        private static void OnColumnHeadersHeightPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param>
+        private static void OnColumnHeadersHeightPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         { 
             DataGrid source = d as DataGrid; 
             Debug.Assert(source != null,
@@ -405,9 +414,9 @@ namespace System.Windows.Controlsb1
         /// <summary> 
         /// Identifies the ColumnHeaderStyle dependency property.
         /// </summary> 
-        public static readonly DependencyProperty ColumnHeaderStyleProperty = DependencyProperty.Register("ColumnHeaderStyle", typeof(Style), typeof(DataGrid), new PropertyMetadata(OnColumnHeaderStylePropertyChanged));
+        public static readonly StyledProperty ColumnHeaderStyleProperty = AvaloniaProperty.Register("ColumnHeaderStyle", typeof(Style), typeof(DataGrid), new PropertyMetadata(OnColumnHeaderStylePropertyChanged));
 
-        private static void OnColumnHeaderStylePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        private static void OnColumnHeaderStylePropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e) 
         {
             //
             Style newStyle = e.NewValue as Style; 
@@ -438,8 +447,8 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the ColumnWidth dependency property.
         /// </summary> 
-        public static readonly DependencyProperty ColumnWidthProperty = 
-            DependencyProperty.Register(
+        public static readonly StyledProperty ColumnWidthProperty = 
+            AvaloniaProperty.Register(
                 "ColumnWidth", 
                 typeof(double),
                 typeof(DataGrid),
@@ -449,8 +458,8 @@ namespace System.Windows.Controlsb1
         /// ColumnWidthProperty property changed handler. 
         /// </summary> 
         /// <param name="d">DataGrid that changed its ColumnWidth.</param>
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param> 
-        private static void OnColumnWidthPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param> 
+        private static void OnColumnWidthPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         {
             DataGrid source = d as DataGrid; 
             Debug.Assert(source != null,
@@ -509,14 +518,14 @@ namespace System.Windows.Controlsb1
             set { SetValue(CornerHeaderStyleProperty, value); } 
         }
 
-        public static readonly DependencyProperty CornerHeaderStyleProperty = 
-            DependencyProperty.Register( 
+        public static readonly StyledProperty CornerHeaderStyleProperty = 
+            AvaloniaProperty.Register( 
                 "CornerHeaderStyle",
                 typeof(Style), 
                 typeof(DataGrid),
                 new PropertyMetadata(OnCornerHeaderStylePropertyChanged));
  
-        private static void OnCornerHeaderStylePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnCornerHeaderStylePropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         {
             Style newStyle = e.NewValue as Style; 
             if (newStyle != null) 
@@ -551,8 +560,8 @@ namespace System.Windows.Controlsb1
         /// <summary> 
         /// Identifies the Gridlines dependency property.
         /// </summary>
-        public static readonly DependencyProperty GridlinesVisibilityProperty = 
-            DependencyProperty.Register(
+        public static readonly StyledProperty GridlinesVisibilityProperty = 
+            AvaloniaProperty.Register(
                 "GridlinesVisibility",
                 typeof(DataGridGridlines), 
                 typeof(DataGrid), 
@@ -562,14 +571,14 @@ namespace System.Windows.Controlsb1
         /// GridlinesProperty property changed handler.
         /// </summary> 
         /// <param name="d">DataGrid that changed its Gridlines.</param>
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param>
-        private static void OnGridlinesVisibilityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param>
+        private static void OnGridlinesVisibilityPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e) 
         { 
             DataGrid source = d as DataGrid;
             Debug.Assert(source != null, 
                 "The source is not an instance of DataGrid!");
 
-            Debug.Assert(typeof(DataGridGridlines).IsInstanceOfType(e.NewValue) || (e.NewValue == null), 
+            Debug.Assert(e.NewValue is DataGridGridlines || (e.NewValue == null), 
                 "The value is not an instance of DataGridGridlines!");
 
             if (!source.IsHandlerSuspended(e.Property)) 
@@ -592,8 +601,8 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the HeadersVisibility dependency property. 
         /// </summary> 
-        public static readonly DependencyProperty HeadersVisibilityProperty =
-            DependencyProperty.Register( 
+        public static readonly StyledProperty HeadersVisibilityProperty =
+            AvaloniaProperty.Register( 
                 "HeadersVisibility",
                 typeof(DataGridHeaders),
                 typeof(DataGrid), 
@@ -603,8 +612,8 @@ namespace System.Windows.Controlsb1
         /// HeadersVisibilityProperty property changed handler. 
         /// </summary>
         /// <param name="d">DataGrid that changed its HeadersVisibility.</param> 
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param>
-        private static void OnHeadersVisibilityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param>
+        private static void OnHeadersVisibilityPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         { 
             DataGrid source = d as DataGrid;
             Debug.Assert(source != null,
@@ -688,8 +697,8 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the HorizontalGridlinesBrush dependency property. 
         /// </summary>
-        public static readonly DependencyProperty HorizontalGridlinesBrushProperty =
-            DependencyProperty.Register( 
+        public static readonly StyledProperty HorizontalGridlinesBrushProperty =
+            AvaloniaProperty.Register( 
                 "HorizontalGridlinesBrush", 
                 typeof(Brush),
                 typeof(DataGrid), 
@@ -699,8 +708,8 @@ namespace System.Windows.Controlsb1
         /// HorizontalGridlinesBrushProperty property changed handler.
         /// </summary>
         /// <param name="d">DataGrid that changed its HorizontalGridlinesBrush.</param> 
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param> 
-        private static void OnHorizontalGridlinesBrushPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param> 
+        private static void OnHorizontalGridlinesBrushPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         { 
             DataGrid source = d as DataGrid;
             Debug.Assert(source != null,
@@ -723,31 +732,29 @@ namespace System.Windows.Controlsb1
         /// </summary>
         public ScrollBarVisibility HorizontalScrollBarVisibility
         { 
-            get { return (ScrollBarVisibility)GetValue(HorizontalScrollBarVisibilityProperty); }
-            set { SetValue(HorizontalScrollBarVisibilityProperty, value); }
+            get => GetValue(HorizontalScrollBarVisibilityProperty);
+            set => SetValue(HorizontalScrollBarVisibilityProperty, value);
         } 
  
         /// <summary>
         /// Identifies the HorizontalScrollBarVisibility dependency property. 
         /// </summary>
-        public static readonly DependencyProperty HorizontalScrollBarVisibilityProperty =
-            DependencyProperty.Register( 
+        public static readonly StyledProperty<ScrollBarVisibility> HorizontalScrollBarVisibilityProperty =
+            AvaloniaProperty.Register<DataGrid,ScrollBarVisibility>( 
                 "HorizontalScrollBarVisibility",
-                typeof(ScrollBarVisibility),
-                typeof(DataGrid), 
                 new PropertyMetadata(OnHorizontalScrollBarVisibilityPropertyChanged)); 
 
         /// <summary> 
         /// HorizontalScrollBarVisibilityProperty property changed handler.
         /// </summary>
         /// <param name="d">DataGrid that changed its HorizontalScrollBarVisibility.</param> 
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param>
-        private static void OnHorizontalScrollBarVisibilityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param>
+        private static void OnHorizontalScrollBarVisibilityPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         { 
             DataGrid source = d as DataGrid; 
             Debug.Assert(source != null,
                 "The source is not an instance of DataGrid!"); 
-            Debug.Assert(typeof(ScrollBarVisibility).IsInstanceOfType(e.NewValue),
+            Debug.Assert(e.NewValue is ScrollBarVisibility,
                 "The value is not an instance of ScrollBarVisibility!");
  
             if (!source.IsHandlerSuspended(e.Property) &&
@@ -772,8 +779,8 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the IsReadOnly dependency property. 
         /// </summary> 
-        public static readonly DependencyProperty IsReadOnlyProperty =
-            DependencyProperty.Register( 
+        public static readonly StyledProperty IsReadOnlyProperty =
+            AvaloniaProperty.Register( 
                 "IsReadOnly",
                 typeof(bool),
                 typeof(DataGrid), 
@@ -783,8 +790,8 @@ namespace System.Windows.Controlsb1
         /// IsReadOnlyProperty property changed handler. 
         /// </summary>
         /// <param name="d">DataGrid that changed its IsReadOnly.</param> 
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param>
-        private static void OnIsReadOnlyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param>
+        private static void OnIsReadOnlyPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         { 
             DataGrid source = d as DataGrid;
             Debug.Assert(source != null,
@@ -818,8 +825,8 @@ namespace System.Windows.Controlsb1
         /// <summary> 
         /// Identifies the ItemsSource dependency property. 
         /// </summary>
-        public static readonly DependencyProperty ItemsSourceProperty = 
-            DependencyProperty.Register(
+        public static readonly StyledProperty ItemsSourceProperty = 
+            AvaloniaProperty.Register(
                 "ItemsSource",
                 typeof(IEnumerable), 
                 typeof(DataGrid),
@@ -829,8 +836,8 @@ namespace System.Windows.Controlsb1
         /// ItemsSourceProperty property changed handler.
         /// </summary> 
         /// <param name="d">DataGrid that changed its ItemsSource.</param>
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param>
-        private static void OnItemsSourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param>
+        private static void OnItemsSourcePropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e) 
         {
             DataGrid source = d as DataGrid;
             Debug.Assert(source != null, 
@@ -872,8 +879,8 @@ namespace System.Windows.Controlsb1
         /// <summary> 
         /// Identifies the OverrideRowDetailsScrolling dependency property. 
         /// </summary>
-        public static readonly DependencyProperty OverrideRowDetailsScrollingProperty = 
-            DependencyProperty.Register(
+        public static readonly StyledProperty OverrideRowDetailsScrollingProperty = 
+            AvaloniaProperty.Register(
                 "OverrideRowDetailsScrolling",
                 typeof(bool), 
                 typeof(DataGrid),
@@ -890,9 +897,9 @@ namespace System.Windows.Controlsb1
             set { SetValue(RowBackgroundProperty, value); } 
         } 
 
-        public static readonly DependencyProperty RowBackgroundProperty = DependencyProperty.Register("RowBackground", typeof(Brush), typeof(DataGrid), new PropertyMetadata(OnRowBackgroundPropertyChanged)); 
+        public static readonly StyledProperty<Brush> RowBackgroundProperty = AvaloniaProperty.Register<DataGrid,Brush>("RowBackground", new PropertyMetadata(OnRowBackgroundPropertyChanged)); 
 
-        private static void OnRowBackgroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnRowBackgroundPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         { 
             DataGrid dataGrid = d as DataGrid;
             if (dataGrid != null)
@@ -928,8 +935,8 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the RowDetailsTemplate dependency property. 
         /// </summary>
-        public static readonly DependencyProperty RowDetailsTemplateProperty =
-            DependencyProperty.Register( 
+        public static readonly StyledProperty RowDetailsTemplateProperty =
+            AvaloniaProperty.Register( 
                 "RowDetailsTemplate",
                 typeof(DataTemplate),
                 typeof(DataGrid), 
@@ -951,8 +958,8 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the RowDetailsVisibility dependency property.
         /// </summary> 
-        public static readonly DependencyProperty RowDetailsVisibilityProperty = 
-            DependencyProperty.Register(
+        public static readonly StyledProperty RowDetailsVisibilityProperty = 
+            AvaloniaProperty.Register(
                 "RowDetailsVisibility", 
                 typeof(DataGridRowDetailsVisibility),
                 typeof(DataGrid),
@@ -962,8 +969,8 @@ namespace System.Windows.Controlsb1
         /// RowDetailsVisibilityProperty property changed handler. 
         /// </summary> 
         /// <param name="d">DataGrid that changed its RowDetailsVisibility.</param>
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param> 
-        private static void OnRowDetailsVisibilityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param> 
+        private static void OnRowDetailsVisibilityPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         {
             DataGrid source = d as DataGrid; 
             Debug.Assert(source != null,
@@ -1012,8 +1019,8 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the RowHeight dependency property. 
         /// </summary>
-        public static readonly DependencyProperty RowHeightProperty =
-            DependencyProperty.Register( 
+        public static readonly StyledProperty RowHeightProperty =
+            AvaloniaProperty.Register( 
                 "RowHeight", 
                 typeof(double),
                 typeof(DataGrid), 
@@ -1023,9 +1030,9 @@ namespace System.Windows.Controlsb1
         /// RowHeightProperty property changed handler.
         /// </summary>
         /// <param name="d">DataGrid that changed its RowHeight.</param> 
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param> 
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param> 
         [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "This parameter is exposed to the user as a 'RowHeight' dependency property.")]
-        private static void OnRowHeightPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        private static void OnRowHeightPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e) 
         {
             DataGrid source = d as DataGrid;
             Debug.Assert(source != null, 
@@ -1087,8 +1094,8 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the RowHeadersWidth dependency property. 
         /// </summary> 
-        public static readonly DependencyProperty RowHeadersWidthProperty =
-            DependencyProperty.Register( 
+        public static readonly StyledProperty RowHeadersWidthProperty =
+            AvaloniaProperty.Register( 
                 "RowHeadersWidth",
                 typeof(double),
                 typeof(DataGrid), 
@@ -1098,8 +1105,8 @@ namespace System.Windows.Controlsb1
         /// RowHeadersWidthProperty property changed handler. 
         /// </summary>
         /// <param name="d">DataGrid that changed its RowHeadersWidth.</param> 
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param>
-        private static void OnRowHeadersWidthPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param>
+        private static void OnRowHeadersWidthPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         { 
             DataGrid source = d as DataGrid;
             Debug.Assert(source != null,
@@ -1137,9 +1144,9 @@ namespace System.Windows.Controlsb1
             set { SetValue(RowHeaderStyleProperty, value); }
         }
  
-        public static readonly DependencyProperty RowHeaderStyleProperty = DependencyProperty.Register("RowHeaderStyle", typeof(Style), typeof(DataGrid), new PropertyMetadata(OnRowHeaderStylePropertyChanged));
+        public static readonly StyledProperty RowHeaderStyleProperty = AvaloniaProperty.Register("RowHeaderStyle", typeof(Style), typeof(DataGrid), new PropertyMetadata(OnRowHeaderStylePropertyChanged));
 
-        private static void OnRowHeaderStylePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        private static void OnRowHeaderStylePropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e) 
         { 
             Style newStyle = e.NewValue as Style;
             if (newStyle != null) 
@@ -1175,14 +1182,14 @@ namespace System.Windows.Controlsb1
             set { SetValue(RowStyleProperty, value); } 
         }
 
-        public static readonly DependencyProperty RowStyleProperty = 
-            DependencyProperty.Register( 
+        public static readonly StyledProperty RowStyleProperty = 
+            AvaloniaProperty.Register( 
                 "RowStyle",
                 typeof(Style), 
                 typeof(DataGrid),
                 new PropertyMetadata(OnRowStylePropertyChanged));
  
-        private static void OnRowStylePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnRowStylePropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         {
             Style newStyle = e.NewValue as Style; 
             if (newStyle != null) 
@@ -1222,8 +1229,8 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the SelectionMode dependency property. 
         /// </summary> 
-        public static readonly DependencyProperty SelectionModeProperty =
-            DependencyProperty.Register( 
+        public static readonly StyledProperty SelectionModeProperty =
+            AvaloniaProperty.Register( 
                 "SelectionMode",
                 typeof(DataGridSelectionMode),
                 typeof(DataGrid), 
@@ -1233,8 +1240,8 @@ namespace System.Windows.Controlsb1
         /// SelectionModeProperty property changed handler. 
         /// </summary>
         /// <param name="d">DataGrid that changed its SelectionMode.</param> 
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param>
-        private static void OnSelectionModePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param>
+        private static void OnSelectionModePropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         { 
             DataGrid source = d as DataGrid;
             Debug.Assert(source != null,
@@ -1263,19 +1270,16 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the SelectedItem dependency property.
         /// </summary> 
-        public static readonly DependencyProperty SelectedItemProperty =
-            DependencyProperty.Register(
-                "SelectedItem", 
-                typeof(object), 
-                typeof(DataGrid),
-                new PropertyMetadata(OnSelectedItemPropertyChanged)); 
+        public static readonly StyledProperty<object> SelectedItemProperty =
+            AvaloniaProperty.Register<DataGrid,object>(
+                "SelectedItem", new PropertyMetadata(OnSelectedItemPropertyChanged)); 
 
         /// <summary>
         /// SelectedItemProperty property changed handler. 
         /// </summary>
         /// <param name="d">DataGrid that changed its SelectedItem.</param>
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param> 
-        private static void OnSelectedItemPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param> 
+        private static void OnSelectedItemPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e) 
         {
             DataGrid source = d as DataGrid; 
             Debug.Assert(source != null,
@@ -1356,8 +1360,8 @@ namespace System.Windows.Controlsb1
         /// Identifies the SelectedItems dependency property.
         /// </summary>
         // 
-        public static readonly DependencyProperty SelectedItemsProperty = 
-            DependencyProperty.Register(
+        public static readonly StyledProperty SelectedItemsProperty = 
+            AvaloniaProperty.Register(
                 "SelectedItems", 
                 typeof(IList /*DataGridSelectedItemsCollection /*only*/),
                 typeof(DataGrid),
@@ -1367,8 +1371,8 @@ namespace System.Windows.Controlsb1
         /// SelectedItemsProperty property changed handler. 
         /// </summary> 
         /// <param name="d">DataGrid that changed its SelectedItems.</param>
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param> 
-        private static void OnSelectedItemsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param> 
+        private static void OnSelectedItemsPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         {
             DataGrid source = d as DataGrid; 
             Debug.Assert(source != null,
@@ -1410,8 +1414,8 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the VerticalGridlinesBrush dependency property.
         /// </summary> 
-        public static readonly DependencyProperty VerticalGridlinesBrushProperty = 
-            DependencyProperty.Register(
+        public static readonly StyledProperty VerticalGridlinesBrushProperty = 
+            AvaloniaProperty.Register(
                 "VerticalGridlinesBrush", 
                 typeof(Brush),
                 typeof(DataGrid),
@@ -1421,8 +1425,8 @@ namespace System.Windows.Controlsb1
         /// VerticalGridlinesBrushProperty property changed handler. 
         /// </summary> 
         /// <param name="d">DataGrid that changed its VerticalGridlinesBrush.</param>
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param> 
-        private static void OnVerticalGridlinesBrushPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param> 
+        private static void OnVerticalGridlinesBrushPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e)
         {
             DataGrid source = d as DataGrid; 
             Debug.Assert(source != null,
@@ -1452,8 +1456,8 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the VerticalScrollBarVisibility dependency property.
         /// </summary> 
-        public static readonly DependencyProperty VerticalScrollBarVisibilityProperty =
-            DependencyProperty.Register(
+        public static readonly StyledProperty VerticalScrollBarVisibilityProperty =
+            AvaloniaProperty.Register(
                 "VerticalScrollBarVisibility", 
                 typeof(ScrollBarVisibility), 
                 typeof(DataGrid),
@@ -1463,8 +1467,8 @@ namespace System.Windows.Controlsb1
         /// VerticalScrollBarVisibilityProperty property changed handler. 
         /// </summary>
         /// <param name="d">DataGrid that changed its VerticalScrollBarVisibility.</param>
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param> 
-        private static void OnVerticalScrollBarVisibilityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        /// <param name="e">AvaloniaPropertyChangedEventArgs.</param> 
+        private static void OnVerticalScrollBarVisibilityPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e) 
         {
             DataGrid source = d as DataGrid; 
             Debug.Assert(source != null,
@@ -2248,7 +2252,7 @@ namespace System.Windows.Controlsb1
                 _topRightCornerHeader.Width = _vScrollBar.Width;
             } 
  
-            this._currentCellFocusVisual = GetTemplateChild(DATAGRID_elementFocusVisualName) as FrameworkElement;
+            this._currentCellFocusVisual = GetTemplateChild(DATAGRID_elementFocusVisualName) as Control;
             ApplyCurrentCellFocusVisualState(); 
         }
 
@@ -2495,13 +2499,13 @@ namespace System.Windows.Controlsb1
             this.SetValueNoCallback(SelectedItemProperty, selectedItem); 
         }
 
-        internal static DataGridCell GetOwningCell(FrameworkElement element) 
+        internal static DataGridCell GetOwningCell(Control element) 
         {
             Debug.Assert(element != null);
             DataGridCell cell = element as DataGridCell; 
             while (element != null && cell == null) 
             {
-                element = element.Parent as FrameworkElement; 
+                element = element.Parent as Control; 
                 cell = element as DataGridCell;
             }
             return cell; 
@@ -3077,7 +3081,7 @@ namespace System.Windows.Controlsb1
             } 
             Debug.Assert(dataGridRow != null); 
             DataGridCell dataGridCell = dataGridRow.Cells[this.CurrentColumnIndex];
-            DataGridCellEditingCancelEventArgs e = new DataGridCellEditingCancelEventArgs(this.CurrentColumn, dataGridRow, dataGridCell.Content as FrameworkElement, editingTriggerInfo); 
+            DataGridCellEditingCancelEventArgs e = new DataGridCellEditingCancelEventArgs(this.CurrentColumn, dataGridRow, dataGridCell.Content as Control, editingTriggerInfo); 
             OnBeginningCellEdit(e);
             if (e.Cancel)
             { 
@@ -3261,7 +3265,7 @@ namespace System.Windows.Controlsb1
 
             DataGridDataErrorEventArgs dataError = null;
             DataGridColumnBase dataGridColumn = this.ColumnsItemsInternal[this._editingColumnIndex]; 
-            FrameworkElement element = this._editingRow.Cells[this._editingColumnIndex].Content as FrameworkElement;
+            Control element = this._editingRow.Cells[this._editingColumnIndex].Content as Control;
             DataGridCellCancelEventArgs e = new DataGridCellCancelEventArgs(dataGridColumn, this._editingRow, element);
             OnCommittingCellEdit(e); 
             if (e.Cancel) 
@@ -3697,7 +3701,7 @@ namespace System.Windows.Controlsb1
         private void EditingBoundElement_GotFocus(object sender, RoutedEventArgs e)
         { 
             // 
-            FrameworkElement element = sender as FrameworkElement;
+            Control element = sender as Control;
             if (element != null) 
             {
                 // No longer interested in the GotFocus event
@@ -3719,7 +3723,7 @@ namespace System.Windows.Controlsb1
         private void EditingBoundElement_LostFocus(object sender, RoutedEventArgs e) 
         {
             //
-            FrameworkElement element = sender as FrameworkElement; 
+            Control element = sender as Control; 
             if (element != null)
             {
                 // No longer interested in the LostFocus event 
@@ -3743,7 +3747,7 @@ namespace System.Windows.Controlsb1
         private void EditingElement_Loaded(object sender, RoutedEventArgs e) 
         { 
             //
-            FrameworkElement element = sender as FrameworkElement; 
+            Control element = sender as Control; 
             if (element != null)
             {
                 // 
@@ -3854,7 +3858,7 @@ namespace System.Windows.Controlsb1
                     if (this._editingBoundElementGotFocusListeners > 0) 
                     {
                         //
-                        FrameworkElement element = this._editingBoundCells[0].Content as FrameworkElement; 
+                        Control element = this._editingBoundCells[0].Content as Control; 
                         if (element != null)
                         {
                             element.GotFocus -= new RoutedEventHandler(EditingBoundElement_GotFocus); 
@@ -4725,7 +4729,7 @@ namespace System.Windows.Controlsb1
             Debug.Assert(dataGridRow != null); 
             Debug.Assert(dataGridCell != null);
  
-            FrameworkElement element = null;
+            Control element = null;
             DataGridBoundColumnBase dataGridBoundColumn = dataGridColumn as DataGridBoundColumnBase;
             if (dataGridBoundColumn != null) 
             {
@@ -4793,11 +4797,11 @@ namespace System.Windows.Controlsb1
                             // No cell template nor cell editing template for DataGridTemplateColumn 
                             throw DataGridError.DataGrid.MissingTemplateForType(typeof(DataGridTemplateColumn));
                         }
-                        element = cellTemplate.LoadContent() as FrameworkElement; 
+                        element = cellTemplate.LoadContent() as Control; 
                     } 
                     else if (isCellEdited)
                     { 
-                        PrepareCellEditPrivate(dataGridCell.Content as FrameworkElement);
+                        PrepareCellEditPrivate(dataGridCell.Content as Control);
                         return;
                     } 
                 }
@@ -4834,7 +4838,7 @@ namespace System.Windows.Controlsb1
                         if (this._editingBoundElementGotFocusListeners > 0)
                         { 
                             // No longer interested in the GotFocus event
-                            FrameworkElement element = dataGridCell.Content as FrameworkElement;
+                            Control element = dataGridCell.Content as Control;
                             if (element != null) 
                             {
                                 element.GotFocus -= new RoutedEventHandler(EditingBoundElement_GotFocus);
@@ -4857,7 +4861,7 @@ namespace System.Windows.Controlsb1
             }
         }
  
-        private void PrepareCellEditPrivate(FrameworkElement element) 
+        private void PrepareCellEditPrivate(Control element) 
         {
             // 
 

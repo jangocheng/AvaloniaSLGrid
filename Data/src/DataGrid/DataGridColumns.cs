@@ -275,7 +275,7 @@ namespace System.Windows.Controlsb1
                 DataGridRow row = _cells.Children[childIndex] as DataGridRow; 
                 if (row != null)
                 {
-                    FrameworkElement element = column.GetElement(row); 
+                    Control element = column.GetElement(row); 
                     // 
                     if (element != null && element.Style == null)
                     { 
@@ -286,7 +286,7 @@ namespace System.Windows.Controlsb1
             // Set Element Style for prefetched rows if HeaderCell.Style is not already set
             foreach (DataGridRow row in _prefetchedRows) 
             { 
-                FrameworkElement element = column.GetElement(row);
+                Control element = column.GetElement(row);
                 // 
                 if (element != null && element.Style == null)
                 {
@@ -1572,7 +1572,7 @@ namespace System.Windows.Controlsb1
 
             DataGridCell dataGridCell = dataGridRow.Cells[dataGridColumn.Index];
             Debug.Assert(dataGridCell != null); 
-            FrameworkElement element = dataGridCell.Content as FrameworkElement; 
+            Control element = dataGridCell.Content as Control; 
             if (element != null)
             { 
                 dataGridColumn.UpdateElement(element, propertyName);

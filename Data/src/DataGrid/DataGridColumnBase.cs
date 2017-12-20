@@ -4,11 +4,13 @@
 // All other rights reserved. 
 
 using System.Diagnostics;
- 
+using Avalonia.Controls;
+using Avalonia.Styling;
+
 namespace System.Windows.Controlsb1
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1036:OverrideMethodsOnComparableTypes", Justification="IComparable in Jolt has only one method, probably a false positive in FxCop.")] 
-    public abstract class DataGridColumnBase : /* DependencyObject,*/ IComparable<DataGridColumnBase>
+    public abstract class DataGridColumnBase : /* AvaloniaObject,*/ IComparable<DataGridColumnBase>
     {
         #region Constants 
 
@@ -800,7 +802,7 @@ namespace System.Windows.Controlsb1
  
         #region Public Methods
  
-        public FrameworkElement GetElement(DataGridRow dataGridRow)
+        public Control GetElement(DataGridRow dataGridRow)
         {
             if (dataGridRow == null) 
             {
@@ -814,10 +816,10 @@ namespace System.Windows.Controlsb1
             Debug.Assert(this.Index < this.OwningGrid.Columns.Count); 
             DataGridCell dataGridCell = dataGridRow.Cells[this.Index];
             Debug.Assert(dataGridCell != null);
-            return dataGridCell.Content as FrameworkElement; 
+            return dataGridCell.Content as Control; 
         } 
 
-        public FrameworkElement GetElement(object dataItem) 
+        public Control GetElement(object dataItem) 
         {
             if (dataItem == null)
             { 
@@ -844,7 +846,7 @@ namespace System.Windows.Controlsb1
         /// </summary> 
         /// <param name="element">Indicates the element that needs to be updated</param> 
         /// <param name="propertyName">Indicates which property changed and caused this call</param>
-        public virtual void UpdateElement(FrameworkElement element, string propertyName) 
+        public virtual void UpdateElement(Control element, string propertyName) 
         {
         }
  

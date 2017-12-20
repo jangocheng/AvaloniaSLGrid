@@ -4,14 +4,15 @@
 // All other rights reserved. 
 
 using System.Diagnostics;
- 
+using Avalonia.Controls;
+
 namespace System.Windows.Controlsb1
 {
     public class DataGridCellEventArgs : EventArgs 
     {
         public DataGridCellEventArgs(DataGridColumnBase dataGridColumn,
                                      DataGridRow dataGridRow, 
-                                     FrameworkElement element)
+                                     Control element)
         {
             if (dataGridColumn == null) 
             { 
@@ -53,7 +54,7 @@ namespace System.Windows.Controlsb1
             private set; 
         }
  
-        public FrameworkElement Element
+        public Control Element
         {
             get; 
             private set;

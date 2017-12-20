@@ -25,31 +25,11 @@ namespace System.Windows.Controlsb1
         } 
  
         #region Public Properties
- 
-        //
 
- 
-
-
- 
- 
-
- 
-
-
- 
-
-
- 
         public bool AllowEdit 
         {
             get 
             {
-                //
- 
-
-
- 
                 if (this.List == null) 
                 {
                     return true; 
@@ -122,14 +102,8 @@ namespace System.Windows.Controlsb1
 
         public IEnumerable DataSource
         { 
-            get 
-            {
-                return this._owner.ItemsSource; 
-            }
-            set
-            { 
-                this._owner.ItemsSource = value;
-            }
+            get => _owner.ItemsSource;
+            set => _owner.ItemsSource = value;
         } 
  
         public Type DataType
@@ -138,25 +112,9 @@ namespace System.Windows.Controlsb1
             {
                 object dataItem = this.GetFirstDataItem(); 
 
-                if (dataItem != null)
-                { 
-                    return dataItem.GetType(); 
-                }
-                else 
-                {
-                    return null;
-                } 
+                return dataItem?.GetType();
             }
         }
- 
-        // 
-
- 
-
-
- 
-
-
  
         public IList List 
         {

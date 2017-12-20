@@ -6,12 +6,13 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis; 
 using System.Windows.Input; 
-using System.Windows.Media.Animation;
-using System.Windows.Shapes; 
+using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
+using Avalonia.Media;
 
 namespace System.Windows.Controlsb1
 { 
-    [TemplatePart(Name = DATAGRIDCELL_elementRoot, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = DATAGRIDCELL_elementRoot, Type = typeof(Control))]
 
     [TemplatePart(Name = DATAGRIDCELL_stateMouseOver, Type = typeof(Storyboard))] 
     [TemplatePart(Name = DATAGRIDCELL_stateMouseOverCurrent, Type = typeof(Storyboard))] 
@@ -59,7 +60,7 @@ namespace System.Windows.Controlsb1
         #region Data
 
         private Line _rightGridline; 
-        private FrameworkElement _rootElement; 
+        private Control _rootElement; 
         private Duration?[] _storyboardDuration; //
  
         // Static arrays to handle state transitions:
@@ -113,7 +114,7 @@ namespace System.Windows.Controlsb1
         public DataGridCell()
         {
             // 
-            this.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Transparent); 
+            this.Background = new SolidColorBrush(Colors.Transparent); 
             this._storyboardDuration = new Duration?[DATAGRIDCELL_stateCount];
             this.MouseLeftButtonDown += new MouseButtonEventHandler(DataGridCell_MouseLeftButtonDown); 
             this.MouseEnter += new MouseEventHandler(DataGridCell_MouseEnter);
@@ -271,7 +272,7 @@ namespace System.Windows.Controlsb1
             base.OnApplyTemplate(); 
 
             Debug.Assert(this._rootElement == null);
-            this._rootElement = GetTemplateChild(DATAGRIDCELL_elementRoot) as FrameworkElement; 
+            this._rootElement = GetTemplateChild(DATAGRIDCELL_elementRoot) as Control; 
             if (this._rootElement != null)
             {
                 ApplyCellState(false /*animate*/); 
