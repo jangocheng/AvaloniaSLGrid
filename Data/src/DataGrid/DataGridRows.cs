@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Controls;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Markup.Xaml.Templates;
 using Avalonia.Styling;
 
@@ -378,9 +379,9 @@ namespace System.Windows.Controlsb1
                 DataGridCellCoordinates newCurrentCellCoordinates = new DataGridCellCoordinates(-1, -1);
                 OnInsertingRow(rowIndex, ref newCurrentCellCoordinates, true /*firstInsertion*/, 1 /*insertionCount*/);   // will throw an exception if the insertion is illegal
                 this._rowCount++; 
-                OnInsertedRow_Phase1(rowIndex, false /*generateRow*/, 1); 
+                OnInsertedRow_Phase1(rowIndex, false /*generateRow*/, 1);
                 OnInsertedRow_Phase2(rowIndex, newCurrentCellCoordinates, true /*lastInsertion*/,
-                    this._vScrollBar == null || this._vScrollBar.Visibility == Visibility.Visible /*updateVerticalScrollBarOnly*/); 
+                    this._vScrollBar == null || this._vScrollBar.Visibility == ScrollBarVisibility.Visible); //movi: was Visibility.Visible /*updateVerticalScrollBarOnly*/); 
                 OnRowsChanged(true /*rowsGrew*/);
             }
         } 
@@ -545,8 +546,9 @@ namespace System.Windows.Controlsb1
             if (addedRows < rowCount) 
             {
                 // Additional rows are off screen
-                this._rowCount += (rowCount - addedRows); 
-                OnAddedRow_Phase2(this._vScrollBar == null || this._vScrollBar.Visibility == Visibility.Visible /*updateVerticalScrollBarOnly*/);
+                this._rowCount += (rowCount - addedRows);
+                OnAddedRow_Phase2(
+                    this._vScrollBar == null || this._vScrollBar.Visibility == ScrollBarVisibility.Visible);//Visibility.Visible /*updateVerticalScrollBarOnly*/);
                 OnRowsChanged(true /*rowsGrew*/);
             } 
         } 

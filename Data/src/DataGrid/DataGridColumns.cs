@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Windows.Data;
 using System.Windows.Controls;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Markup.Xaml.Data;
 
 namespace System.Windows.Controlsb1
@@ -111,7 +112,7 @@ namespace System.Windows.Controlsb1
 
  
             this._horizontalOffset = this._negHorizontalOffset = 0;
-            if (this._hScrollBar != null && this._hScrollBar.Visibility == Visibility.Visible) //
+            if (this._hScrollBar != null && this._hScrollBar.Visibility == ScrollBarVisibility.Visible)//movi: was Visibility.Visible) //
             { 
                 this._hScrollBar.Value = 0;
             }
@@ -699,7 +700,7 @@ namespace System.Windows.Controlsb1
                     this._horizontalOffset -= GetEdgedColumnWidth(dataGridColumn);
                 } 
 
-                if (this._hScrollBar != null && this._hScrollBar.Visibility == Visibility.Visible) //
+                if (this._hScrollBar != null && this._hScrollBar.Visibility == ScrollBarVisibility.Visible) //
                 { 
                     this._hScrollBar.Value = this._horizontalOffset; 
                 }

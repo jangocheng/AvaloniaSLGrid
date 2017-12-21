@@ -633,4 +633,11 @@ namespace System.Windows.Controlsb1
 
         #endregion Debugging Methods 
     }
+
+    public enum Visibility
+    {
+        Collapsed,
+        Hidden,
+        Visible
+    }
 }

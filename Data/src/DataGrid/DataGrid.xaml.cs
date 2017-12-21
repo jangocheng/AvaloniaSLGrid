@@ -8,11 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel; 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis; 
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Media; 
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using System.Windows.Controls;
 using Avalonia;
 using Avalonia.Controls;
@@ -341,12 +337,8 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the CanUserResizeColumns dependency property. 
         /// </summary> 
-        public static readonly StyledProperty CanUserResizeColumnsProperty =
-            AvaloniaProperty.Register( 
-                "CanUserResizeColumns",
-                typeof(bool),
-                typeof(DataGrid), 
-                null);
+        public static readonly StyledProperty<bool> CanUserResizeColumnsProperty =
+            AvaloniaProperty.Register<DataGrid,bool>("CanUserResizeColumns");
         #endregion CanUserResizeColumns
  
         #region ColumnHeadersHeight 
@@ -874,12 +866,8 @@ namespace System.Windows.Controlsb1
         /// <summary> 
         /// Identifies the OverrideRowDetailsScrolling dependency property. 
         /// </summary>
-        public static readonly StyledProperty OverrideRowDetailsScrollingProperty = 
-            AvaloniaProperty.Register(
-                "OverrideRowDetailsScrolling",
-                typeof(bool), 
-                typeof(DataGrid),
-                null);
+        public static readonly StyledProperty<bool> OverrideRowDetailsScrollingProperty = 
+            AvaloniaProperty.Register<DataGrid,bool>("OverrideRowDetailsScrolling");
         #endregion OverrideRowDetailsScrolling 
  
         #region RowBackground
@@ -930,12 +918,8 @@ namespace System.Windows.Controlsb1
         /// <summary>
         /// Identifies the RowDetailsTemplate dependency property. 
         /// </summary>
-        public static readonly StyledProperty RowDetailsTemplateProperty =
-            AvaloniaProperty.Register( 
-                "RowDetailsTemplate",
-                typeof(DataTemplate),
-                typeof(DataGrid), 
-                null); 
+        public static readonly StyledProperty<DataTemplate> RowDetailsTemplateProperty =
+            AvaloniaProperty.Register<DataGrid,DataTemplate>("RowDetailsTemplate");
         #endregion RowDetailsTemplate
  
         #region RowDetailsVisibility
@@ -3426,14 +3410,14 @@ namespace System.Windows.Controlsb1
                 {
                     forceHorizScrollbar = this.HorizontalScrollBarVisibility == ScrollBarVisibility.Visible; 
                     allowHorizScrollbar = forceHorizScrollbar || (this.ColumnsInternal.VisibleColumnCount > 0 && 
-                        this.HorizontalScrollBarVisibility != ScrollBarVisibility.Disabled &&
+                      //  this.HorizontalScrollBarVisibility != ScrollBarVisibility.Disabled &&
                         this.HorizontalScrollBarVisibility != ScrollBarVisibility.Hidden); 
                     horizScrollBarHeight = _hScrollBar.Height;
-                    if (this._hScrollBar.Visibility == Visibility.Visible && !forceHorizScrollbar)
+                    if (this._hScrollBar.Visibility == ScrollBarVisibility.Visible && !forceHorizScrollbar)
                     { 
                         cellsHeight += horizScrollBarHeight;
                     }
-                    else if (this._hScrollBar.Visibility == Visibility.Collapsed && forceHorizScrollbar) 
+                    else if (this._hScrollBar.Visibility == ScrollBarVisibility.Hidden && forceHorizScrollbar) //movi: 'twas Collapsed here
                     { 
                         cellsHeight -= horizScrollBarHeight;
                     } 
@@ -3445,14 +3429,14 @@ namespace System.Windows.Controlsb1
                 { 
                     forceVertScrollbar = this.VerticalScrollBarVisibility == ScrollBarVisibility.Visible; 
                     allowVertScrollbar = forceVertScrollbar || (this.ColumnsItemsInternal.Count > 0 &&
-                        this.VerticalScrollBarVisibility != ScrollBarVisibility.Disabled && 
+                        //this.VerticalScrollBarVisibility != ScrollBarVisibility.Disabled && 
                         this.VerticalScrollBarVisibility != ScrollBarVisibility.Hidden);
                     vertScrollBarWidth = _vScrollBar.Width;
-                    if (this._vScrollBar.Visibility == Visibility.Visible && !forceVertScrollbar) 
+                    if (this._vScrollBar.Visibility == ScrollBarVisibility.Visible && !forceVertScrollbar) 
                     {
                         cellsWidth += vertScrollBarWidth;
                     } 
-                    else if (this._vScrollBar.Visibility == Visibility.Collapsed && forceVertScrollbar) 
+                    else if (this._vScrollBar.Visibility == ScrollBarVisibility.Hidden && forceVertScrollbar) //movi: 'twas collapsed here
                     {
                         cellsWidth -= vertScrollBarWidth; 
                     }
@@ -3605,13 +3589,13 @@ namespace System.Windows.Controlsb1
                 {
                     // Show the TopRightHeaderCell based on vertical ScrollBar visibility
                     if (this.AreColumnHeadersVisible && 
-                        this._vScrollBar != null && this._vScrollBar.Visibility == Visibility.Visible) 
+                        this._vScrollBar != null && this._vScrollBar.Visibility == ScrollBarVisibility.Visible) 
                     {
-                        this._topRightCornerHeader.Visibility = Visibility.Visible; 
+                        this._topRightCornerHeader.IsVisible = true; //movi: 'twas Visible
                     }
                     else
                     { 
-                        this._topRightCornerHeader.Visibility = Visibility.Collapsed;
+                        this._topRightCornerHeader.IsVisible = false;//movi: 'twas Collapsed
                     }
                 } 
             } 
@@ -3623,7 +3607,7 @@ namespace System.Windows.Controlsb1
 
         private void UpdateVerticalScrollBar()
         { 
-            if (this._vScrollBar != null && this._vScrollBar.Visibility == Visibility.Visible) 
+            if (this._vScrollBar != null && this._vScrollBar.Visibility == ScrollBarVisibility.Visible) 
             {
                 UpdateVerticalScrollBar(true /*needVertScrollbar*/, false /*forceVertScrollbar*/, this.EdgedRowsHeight, this.CellsHeight); 
             }
@@ -3829,8 +3813,8 @@ namespace System.Windows.Controlsb1
                 this.IsTabStop = true; 
                 if (keepFocus)
                 {
-                    bool success = Focus(); 
-                    Debug.Assert(success); 
+                   Focus(); 
+                   // Debug.Assert(success); 
                 }
             } 
 
@@ -4030,8 +4014,9 @@ namespace System.Windows.Controlsb1
             } 
             if (keepFocus) 
             {
-                bool success = Focus(); 
-                Debug.Assert(success);
+                //bool success = 
+                Focus(); 
+                //Debug.Assert(success);
             }
         } 
 
@@ -4066,13 +4051,15 @@ namespace System.Windows.Controlsb1
                     editingControl.TabIndex = this.TabIndex; 
                     if (setFocus) 
                     {
-                        return editingControl.Focus(); 
+                        //return 
+                        editingControl.Focus(); 
                     }
                 }
             } 
             else if (setFocus && this._editingTemplateControl != null && this._editingTemplateControl.IsTabStop)
             {
-                return this._editingTemplateControl.Focus(); 
+                //return 
+                this._editingTemplateControl.Focus(); 
             } 
             return false;
         } 
@@ -4606,8 +4593,8 @@ namespace System.Windows.Controlsb1
             else 
             { 
                 if (this._columnHeaders != null)
-                { 
-                    this._columnHeaders.Visibility = Visibility.Collapsed;
+                {
+                    this._columnHeaders.IsVisible = false; //movi: it was Visibility.Collapsed;
                 }
             } 
 
@@ -4627,15 +4614,15 @@ namespace System.Windows.Controlsb1
  
             if (this._topRightCornerHeader != null)
             {
-                if (this.AreColumnHeadersVisible && 
-                    this._vScrollBar != null && this._vScrollBar.Visibility == Visibility.Visible)
+                if (this.AreColumnHeadersVisible &&
+                    this._vScrollBar != null && this._vScrollBar.Visibility == ScrollBarVisibility.Visible) //movi: was Visibility.Visible)
                 {
-                    this._topRightCornerHeader.Visibility = Visibility.Visible; 
+                    this._topRightCornerHeader.IsVisible = true;//movi: was Visibility.Visible; 
                     this._topRightCornerHeader.Height = columnHeadersHeight; 
                 }
-                else 
+                else
                 {
-                    this._topRightCornerHeader.Visibility = Visibility.Collapsed;
+                    this._topRightCornerHeader.IsVisible = false;//movi:  was  Visibility = Visibility.Collapsed;
                 } 
             }
 
@@ -6659,19 +6646,19 @@ namespace System.Windows.Controlsb1
                         this._hScrollBar.ViewportSize = 0; 
                     }
                     this._hScrollBar.Width = cellsWidth - totalVisibleFrozenWidth; 
-                    if (this._hScrollBar.Visibility != Visibility.Visible)
+                    if (this._hScrollBar.Visibility != ScrollBarVisibility.Visible)
                     {
                         // This will trigger a call to this method via Cells_SizeChanged for 
                         // which no processing is needed.
-                        this._hScrollBar.Visibility = Visibility.Visible;
+                        this._hScrollBar.Visibility = ScrollBarVisibility.Visible;
                         this._ignoreNextScrollBarsLayout = true; 
                     } 
                 }
-                else if (this._hScrollBar.Visibility != Visibility.Collapsed) 
+                else if (this._hScrollBar.Visibility != ScrollBarVisibility.Hidden) //movi: 'twas collapsed here
                 {
                     // This will trigger a call to this method via Cells_SizeChanged for
                     // which no processing is needed. 
-                    this._hScrollBar.Visibility = Visibility.Collapsed;
+                    this._hScrollBar.Visibility = ScrollBarVisibility.Hidden;//movi: 'twas collapsed here
                     this._ignoreNextScrollBarsLayout = true;
                     // 
  
@@ -6746,19 +6733,19 @@ namespace System.Windows.Controlsb1
                         this._vScrollBar.ViewportSize = 0;
                     }
                     this._vScrollBar.Height = cellsHeight; 
-                    if (this._vScrollBar.Visibility != Visibility.Visible) 
+                    if (this._vScrollBar.Visibility != ScrollBarVisibility.Visible) 
                     {
                         // This will trigger a call to this method via Cells_SizeChanged for 
                         // which no processing is needed.
-                        this._vScrollBar.Visibility = Visibility.Visible;
+                        this._vScrollBar.Visibility = ScrollBarVisibility.Visible;
                         this._ignoreNextScrollBarsLayout = true; 
                     }
                 }
-                else if (this._vScrollBar.Visibility != Visibility.Collapsed) 
+                else if (this._vScrollBar.Visibility != ScrollBarVisibility.Hidden) //movi: 'twas Collappsed here
                 { 
                     // This will trigger a call to this method via Cells_SizeChanged for
                     // which no processing is needed. 
-                    this._vScrollBar.Visibility = Visibility.Collapsed;
+                    this._vScrollBar.Visibility = ScrollBarVisibility.Hidden;//movi: 'twas Collappsed here
                     this._ignoreNextScrollBarsLayout = true;
                 } 
             }

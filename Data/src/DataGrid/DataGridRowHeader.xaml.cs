@@ -9,6 +9,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation; 
 using System.Windows.Shapes;
+using Avalonia;
+using Avalonia.Controls;
 
 namespace System.Windows.Controlsb1
 {
@@ -185,7 +187,7 @@ namespace System.Windows.Controlsb1
             set { SetValue(SeparatorBrushProperty, value); }
         }
  
-        public static readonly StyledProperty SeparatorBrushProperty = 
+        public static readonly StyledProperty<> SeparatorBrushProperty = 
             AvaloniaProperty.Register("SeparatorBrush",
                 typeof(Brush), 
                 typeof(DataGridRowHeader),
@@ -200,15 +202,12 @@ namespace System.Windows.Controlsb1
         /// </summary>
         public Visibility SeparatorVisibility
         { 
-            get { return (Visibility)GetValue(SeparatorVisibilityProperty); }
+            get { return GetValue(SeparatorVisibilityProperty); }
             set { SetValue(SeparatorVisibilityProperty, value); }
         } 
  
-        public static readonly StyledProperty SeparatorVisibilityProperty =
-            AvaloniaProperty.Register("SeparatorVisibility", 
-                typeof(Visibility),
-                typeof(DataGridRowHeader),
-                null); 
+        public static readonly StyledProperty<Visibility> SeparatorVisibilityProperty =
+            AvaloniaProperty.Register<DataGridRowHeader,Visibility>("SeparatorVisibility");
 
         #endregion SeparatorVisibility
  

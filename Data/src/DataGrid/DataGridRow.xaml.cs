@@ -170,8 +170,8 @@ namespace System.Windows.Controlsb1
             this._fillerCell.OwningRow = this; 
             this._fillerCell.Visibility = Visibility.Collapsed;
             this.Cells = new DataGridCellCollection(this);
-            this.Cells.CellAdded += new EventHandler<DataGridCellEventArgs>(DataGridCellCollection_CellAdded); 
-            this.Cells.CellRemoved += new EventHandler<DataGridCellEventArgs>(DataGridCellCollection_CellRemoved); 
+            this.Cells.CellAdded += DataGridCellCollection_CellAdded; 
+            this.Cells.CellRemoved += DataGridCellCollection_CellRemoved; 
 
             this.MouseLeftButtonDown += new MouseButtonEventHandler(DataGridRow_MouseLeftButtonDown); 
             this.MouseEnter += new MouseEventHandler(DataGridRow_MouseEnter);
@@ -892,7 +892,7 @@ namespace System.Windows.Controlsb1
                     {
                         storyboardName = _stateNames[stateCode]; 
                     } 
-                    storyboard = this.RootElement.FindName(storyboardName) as Storyboard;
+                    storyboard = this.RootElement.FindControl<Storyboard>(storyboardName);
                     if (storyboard == null) 
                     {
                         stateCode = _fallbackStateMapping[stateCode];

@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Media;
 
 namespace System.Windows.Controlsb1
 {
@@ -59,13 +60,10 @@ namespace System.Windows.Controlsb1
         { 
             get { return GetValue(SeparatorBrushProperty) as Brush; }
             set { SetValue(SeparatorBrushProperty, value); }
-        } 
- 
-        public static readonly StyledProperty SeparatorBrushProperty =
-            AvaloniaProperty.Register("SeparatorBrush", 
-                typeof(Brush),
-                typeof(DataGridColumnHeader),
-                null); 
+        }
+
+        public static readonly StyledProperty<Brush> SeparatorBrushProperty =
+            AvaloniaProperty.Register<DataGridColumnHeader, Brush>("SeparatorBrush");
 
         #endregion SeparatorBrush
  
