@@ -194,10 +194,10 @@ namespace System.Windows.Controlsb1
         { 
             this.TabNavigation = KeyboardNavigationMode.Once; 
             this.IsTabStop = true;
-            this.KeyDown += new KeyEventHandler(DataGrid_KeyDown); 
-            this.KeyUp += new KeyEventHandler(DataGrid_KeyUp);
-            this.GotFocus += new RoutedEventHandler(DataGrid_GotFocus);
-            this.LostFocus += new RoutedEventHandler(DataGrid_LostFocus); 
+            this.KeyDown += DataGrid_KeyDown; 
+            this.KeyUp += DataGrid_KeyUp;
+            this.GotFocus += DataGrid_GotFocus;
+            this.LostFocus += DataGrid_LostFocus; 
 
             this.SetValueNoCallback(GridlinesVisibilityProperty, DataGridGridlines.All);
  
@@ -2182,11 +2182,6 @@ namespace System.Windows.Controlsb1
         public override void OnApplyTemplate()
         {
             // 
-
-
- 
- 
-
             _columnHeaders = GetTemplateChild(DATAGRID_elementColumnHeadersName) as Canvas; 
             if (_columnHeaders != null && this.ColumnsInternal.Count > 0)
             {
@@ -2536,7 +2531,7 @@ namespace System.Windows.Controlsb1
                         Debug.Assert(inFrozenZone);
                         if (displayColumnHeaders)
                         { 
-                            headerCell.Visibility = Visibility.Visible; 
+                            headerCell.IsVisible = true; 
                             headerCell.SetValue(Canvas.LeftProperty, leftEdge);
                             headerCell.Width = column.Width; 
                             headerCell.Height = this.ColumnHeadersHeight;
@@ -2562,12 +2557,12 @@ namespace System.Windows.Controlsb1
                                 if (this.DisplayData.FirstDisplayedScrollingCol == column.Index && 
                                     this._negHorizontalOffset > 0 &&
                                     column.Width <= this._negHorizontalOffset)
-                                { 
-                                    headerCell.Visibility = Visibility.Collapsed; 
-                                }
-                                else 
                                 {
-                                    headerCell.Visibility = Visibility.Visible;
+                                    headerCell.IsVisible = false; //movi: was Visibility.Collapsed; 
+                                }
+                                else
+                                {
+                                    headerCell.IsVisible = true;//movi: Visibility = Visibility.Visible;
                                     headerCell.SetValue(Canvas.LeftProperty, leftEdge); 
                                     headerCell.Width = GetEdgedColumnWidth(column);
                                     headerCell.Height = this.ColumnHeadersHeight;
@@ -2646,7 +2641,7 @@ namespace System.Windows.Controlsb1
             if (this.CurrentColumnIndex == -1 || this._cells == null || 
                 (this.CurrentRowIndex != -1 && !IsRowDisplayed(this.CurrentRowIndex))) 
             {
-                this._currentCellFocusVisual.Visibility = Visibility.Collapsed; 
+                this._currentCellFocusVisual.IsVisible = false;//movi: was Visibility.Collapsed; 
                 return;
             }
  
@@ -2659,18 +2654,18 @@ namespace System.Windows.Controlsb1
             if (dataGridCurrentRow.IsLayoutDelayed ||
                 dataGridCurrentCell.Visibility == Visibility.Collapsed)
             { 
-                this._currentCellFocusVisual.Visibility = Visibility.Collapsed;
+                this._currentCellFocusVisual.IsVisible = false;//movi: was Visibility.Collapsed;
                 return;
             } 
  
             double currentCellY = (double)dataGridCurrentRow.GetValue(Canvas.TopProperty);
             if (currentCellY < -dataGridCurrentRow.ActualCellHeight) 
             {
-                this._currentCellFocusVisual.Visibility = Visibility.Collapsed;
+                this._currentCellFocusVisual.IsVisible = false;//movi: was Visibility.Collapsed;
                 return; 
             }
 
-            this._currentCellFocusVisual.Visibility = Visibility.Visible; 
+            this._currentCellFocusVisual.IsVisible = true;//movi: was Visibility.Visible; 
             this._currentCellFocusVisual.Height = dataGridCurrentRow.ActualCellHeight; 
             this._currentCellFocusVisual.Width = this.CurrentColumn.Width;
  
@@ -2687,12 +2682,12 @@ namespace System.Windows.Controlsb1
                     if (currentCellY < 0)
                     { 
                         Debug.Assert(currentCellClip.Rect.Height + currentCellY >= 0);
-                        rg.Rect = new Rect(currentCellClip.Rect.Left, -currentCellY,
+                        rg.Rect = new Rect(currentCellClip.Rect.TopLeft.X, -currentCellY,
                             cellsClip.Rect.Right - currentCellX, currentCellClip.Rect.Height + currentCellY); 
                     } 
                     else
                     { 
-                        rg.Rect = new Rect(currentCellClip.Rect.Left, currentCellClip.Rect.Top,
+                        rg.Rect = new Rect(currentCellClip.Rect.TopLeft.X, currentCellClip.Rect.TopLeft.Y,
                             cellsClip.Rect.Right - currentCellX, Math.Min(currentCellClip.Rect.Height, cellsClip.Rect.Bottom - currentCellY));
                     } 
                 }
@@ -2701,12 +2696,12 @@ namespace System.Windows.Controlsb1
                     if (currentCellY < 0) 
                     {
                         Debug.Assert(currentCellClip.Rect.Height + currentCellY >= 0); 
-                        rg.Rect = new Rect(currentCellClip.Rect.Left, -currentCellY,
+                        rg.Rect = new Rect(currentCellClip.Rect.TopLeft.X, -currentCellY,
                             currentCellClip.Rect.Width, currentCellClip.Rect.Height + currentCellY);
                     } 
                     else
                     {
-                        rg.Rect = new Rect(currentCellClip.Rect.Left, currentCellClip.Rect.Top, 
+                        rg.Rect = new Rect(currentCellClip.Rect.TopLeft.X, currentCellClip.Rect.TopLeft.Y, 
                             cellsClip.Rect.Width, Math.Min(currentCellClip.Rect.Height, cellsClip.Rect.Bottom - currentCellY)); 
                     }
                 } 
@@ -2811,7 +2806,7 @@ namespace System.Windows.Controlsb1
         } 
 
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
-        internal bool UpdateStateOnMouseLeftButtonDown(MouseButtonEventArgs mouseButtonEventArgs, int columnIndex, int rowIndex) 
+        internal bool UpdateStateOnMouseLeftButtonDown(PointerPressedEventArgs mouseButtonEventArgs, int columnIndex, int rowIndex) 
         {
             bool ctrl, shift, beginEdit;
  

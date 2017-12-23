@@ -1,7 +1,9 @@
 ﻿using System; 
 using System.Collections.Generic;
 using System.Windows.Controls;
-using System.Windows.Markup; 
+using System.Windows.Markup;
+using Avalonia.Markup.Xaml.Templates;
+using Portable.Xaml;
 
 namespace System.Windows.Controls
 { 

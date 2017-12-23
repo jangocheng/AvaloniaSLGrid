@@ -19,7 +19,7 @@ namespace System.Windows.Controlsb1
 
         internal DataGridEditingTriggerInfo(bool containsFocus, 
             ModifierKeys modifierKeys, KeyEventArgs keyEventArgs,
-            MouseButtonEventArgs mouseButtonEventArgs)
+            PointerPressedEventArgs mouseButtonEventArgs)
         { 
             this.ContainsFocus = containsFocus;
             this.ModifierKeys = modifierKeys;
@@ -47,7 +47,7 @@ namespace System.Windows.Controlsb1
             private set; 
         }
 
-        public MouseButtonEventArgs MouseButtonEventArgs 
+        public PointerPressedEventArgs MouseButtonEventArgs 
         {
             get;
             private set; 
