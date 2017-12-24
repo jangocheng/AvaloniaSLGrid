@@ -295,7 +295,7 @@ namespace System.Windows.Controlsb1
             { 
                 this._editingTextBox.Foreground = this.Foreground;
             } 
-            this._editingTextBox.SetBinding(TextBox.TextProperty, this.DisplayMemberBinding);
+            this._editingTextBox.Bind(TextBox.TextProperty, this.DisplayMemberBinding);
             return this._editingTextBox;
         } 
 
@@ -318,7 +318,7 @@ namespace System.Windows.Controlsb1
             { 
                 textBlockElement.Foreground = this.Foreground;
             }
-            textBlockElement.SetBinding(TextBlock.TextProperty, this.DisplayMemberBinding); 
+            textBlockElement.Bind(TextBlock.TextProperty, this.DisplayMemberBinding); 
             return textBlockElement; 
         }
  

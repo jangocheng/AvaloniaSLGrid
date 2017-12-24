@@ -8,6 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Windows.Input; 
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
+using Avalonia.Input;
 using Avalonia.Media;
 
 namespace System.Windows.Controlsb1
@@ -116,9 +117,9 @@ namespace System.Windows.Controlsb1
             // 
             this.Background = new SolidColorBrush(Colors.Transparent); 
             this._storyboardDuration = new Duration?[DATAGRIDCELL_stateCount];
-            this.MouseLeftButtonDown += new MouseButtonEventHandler(DataGridCell_MouseLeftButtonDown); 
-            this.MouseEnter += new MouseEventHandler(DataGridCell_MouseEnter);
-            this.MouseLeave += new MouseEventHandler(DataGridCell_MouseLeave);
+            this.PointerPressed += DataGridCell_MouseLeftButtonDown; 
+            this.PointerEnter += DataGridCell_MouseEnter;
+            this.PointerLeave += DataGridCell_MouseLeave;
         } 
 
         #region Public Properties
@@ -362,7 +363,7 @@ namespace System.Windows.Controlsb1
             this._rightGridline = new Line(); 
             this._rightGridline.Stroke = this.OwningGrid.VerticalGridlinesBrush;
             this._rightGridline.StrokeThickness = DataGrid.VerticalGridlinesThickness;
-            this._rightGridline.SetValue(System.Windows.Controls.Canvas.ZIndexProperty, 1); 
+            this._rightGridline.SetValue(ZIndexProperty, 1); 
             this.OwningGrid.AddDisplayedVerticalGridline(this._rightGridline);
         }
  
@@ -376,7 +377,7 @@ namespace System.Windows.Controlsb1
 
         #region Private Methods 
  
-        private void DataGridCell_MouseEnter(object sender, MouseEventArgs e)
+        private void DataGridCell_MouseEnter(object sender, PointerEventArgs e)
         { 
             if (this.OwningRow != null)
             {
@@ -384,7 +385,7 @@ namespace System.Windows.Controlsb1
             }
         }
  
-        private void DataGridCell_MouseLeave(object sender, MouseEventArgs e) 
+        private void DataGridCell_MouseLeave(object sender, PointerEventArgs e) 
         {
             if (this.OwningRow != null) 
             {
@@ -392,7 +393,7 @@ namespace System.Windows.Controlsb1
             } 
         }
 
-        private void DataGridCell_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) 
+        private void DataGridCell_MouseLeftButtonDown(object sender, PointerPressedEventArgs e) 
         { 
             if (!e.Handled)
             { 
@@ -407,8 +408,9 @@ namespace System.Windows.Controlsb1
                     } 
                     if (this.OwningGrid.IsTabStop)
                     {
-                        bool success = this.OwningGrid.Focus(); 
-                        Debug.Assert(success);
+                        //  bool success = this.
+                        OwningGrid.Focus(); 
+                        //Debug.Assert(success);
                     }
                 } 
             } 

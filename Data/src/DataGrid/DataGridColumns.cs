@@ -5,8 +5,6 @@
 
 using System.Diagnostics;
 using System.Reflection; 
-using System.Windows.Data;
-using System.Windows.Controls;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Markup.Xaml.Data;
@@ -98,31 +96,13 @@ namespace System.Windows.Controlsb1
             // Trash all recyclable rows 
             this._recyclableRows.Clear();
 
-            /* 
- 
-*/
- 
-            //
-
- 
-
-
- 
- 
-
- 
             this._horizontalOffset = this._negHorizontalOffset = 0;
             if (this._hScrollBar != null && this._hScrollBar.Visibility == ScrollBarVisibility.Visible)//movi: was Visibility.Visible) //
             { 
                 this._hScrollBar.Value = 0;
             }
-        } 
- 
-        //
- 
+        }
 
-
- 
         internal void OnColumnCellStyleChanged(DataGridColumnBase column)
         {
             // Set HeaderCell.Style for displayed rows if HeaderCell.Style is not already set 
@@ -144,11 +124,6 @@ namespace System.Windows.Controlsb1
             _recyclableRows.Clear();
         }
  
-        // 
-
- 
-
-
         internal void OnColumnCollectionChanged_PostNotification(bool columnsGrew) 
         {
             UpdateColumnHeadersSeparatorVisibility();
@@ -158,12 +133,10 @@ namespace System.Windows.Controlsb1
                 MakeFirstDisplayedCellCurrentCell(); 
             }
         }
- 
+
         internal void OnColumnCollectionChanged_PreNotification(bool columnsGrew)
         {
             // dataGridColumn==null means the collection was refreshed. 
- 
-            //
  
             if (columnsGrew && this.ColumnsItemsInternal.Count == 1)
             {
