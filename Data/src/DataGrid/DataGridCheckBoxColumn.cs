@@ -3,11 +3,11 @@
 // Please see http://go.microsoft.com/fwlink/?LinkID=111693 for details.
 // All other rights reserved. 
 
-using System.Windows.Data;
-using System.Windows.Markup;
 using System.Windows.Controls;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml.Data;
@@ -197,7 +197,7 @@ namespace System.Windows.Controlsb1
             }
             if (propertyName == DATAGRIDCHECKBOXCOLUMN_checkBoxContentBindingName) 
             {
-                checkBox.SetBinding(CheckBox.ContentProperty, this.CheckBoxContentBinding);
+                checkBox.Bind(CheckBox.ContentProperty, this.CheckBoxContentBinding);
             } 
             else if (propertyName == DATAGRIDCHECKBOXCOLUMN_isThreeStateName)
             {
@@ -205,7 +205,7 @@ namespace System.Windows.Controlsb1
             } 
             else
             { 
-                checkBox.SetBinding(CheckBox.ContentProperty, this.CheckBoxContentBinding);
+                checkBox.Bind(CheckBox.ContentProperty, this.CheckBoxContentBinding);
                 checkBox.IsThreeState = this.IsThreeState;
             } 
         }
@@ -239,11 +239,12 @@ namespace System.Windows.Controlsb1
             checkBox.HorizontalAlignment = HorizontalAlignment.Center;
             checkBox.VerticalAlignment   = VerticalAlignment.Center; 
             checkBox.IsThreeState        = this.IsThreeState; 
-            checkBox.SetBinding(CheckBox.IsCheckedProperty, this.DisplayMemberBinding);
+
+            checkBox.Bind(CheckBox.IsCheckedProperty, this.DisplayMemberBinding);
  
             if (this.CheckBoxContentBinding != null)
             {
-                checkBox.SetBinding(CheckBox.ContentProperty, this.CheckBoxContentBinding); 
+                checkBox.Bind(CheckBox.ContentProperty, this.CheckBoxContentBinding); 
             }
         }
  
@@ -256,57 +257,34 @@ namespace System.Windows.Controlsb1
             {
                 styleXaml = new System.IO.StreamReader(stream).ReadToEnd();
                 stream.Close(); 
-            } 
+            }
+
             return XamlReader.Load(styleXaml) as Style;
-        } 
+        }
 
         #endregion Private Methods
- 
+
         #region Nested Types
 
-        private class ReadOnlyCheckBox : CheckBox 
-        { 
-            //
- 
-            protected override void OnIndeterminate(RoutedEventArgs e)
-            {
-                DataGridCell dataGridCell = DataGrid.GetOwningCell(this); 
-                if (dataGridCell != null && dataGridCell.RowIndex == -1)
-                {
-                    return; 
-                } 
-                base.OnIndeterminate(e);
-            } 
+        public class ReadOnlyCheckBox : ToggleButton, IStyleable
+        {
+            public Type StyleKey => typeof(CheckBox);
 
-            protected override void OnKeyUp(System.Windows.Input.KeyEventArgs e)
-            { 
-                e.Handled = true;
-            }
- 
-            protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e) 
-            {
-                e.Handled = true; 
-            }
+            //protected override void OnIndeterminate(RoutedEventArgs e)
+            //{
+            //    //TODO: i don't know what it is here
+            //    //DataGridCell dataGridCell = DataGrid.GetOwningCell(this);
+            //    //if (dataGridCell != null && dataGridCell.RowIndex == -1)
+            //    //{
+            //    //    return;
+            //    //}
+            //    //base.OnIndeterminate(e);
+            //}
 
-            protected override void OnMouseEnter(System.Windows.Input.MouseEventArgs e) 
+            protected override void OnClick()
             {
-                e.Handled = true;
-            } 
- 
-            protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
-            { 
-                e.Handled = true;
+                //don't do anything - it's readonly
             }
- 
-            protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
-            {
-                e.Handled = false; 
-            } 
-
-            protected override void OnMouseLeftButtonUp(System.Windows.Input.MouseButtonEventArgs e) 
-            {
-                e.Handled = true;
-            } 
         }
 
         #endregion Nested Types 
