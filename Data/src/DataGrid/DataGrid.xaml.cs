@@ -257,11 +257,9 @@ namespace System.Windows.Controlsb1
         /// <summary> 
         /// Identifies the AlternatingRowBackground dependency property. 
         /// </summary>
-        public static readonly StyledProperty AlternatingRowBackgroundProperty = 
-            AvaloniaProperty.Register(
+        public static readonly StyledProperty<Brush> AlternatingRowBackgroundProperty = 
+            AvaloniaProperty.Register<DataGrid,Brush>(
                 "AlternatingRowBackground",
-                typeof(Brush), 
-                typeof(DataGrid),
                 new PropertyMetadata(OnAlternatingRowBackgroundPropertyChanged));
  
         private static void OnAlternatingRowBackgroundPropertyChanged(AvaloniaObject d, AvaloniaPropertyChangedEventArgs e) 
@@ -2254,16 +2252,6 @@ namespace System.Windows.Controlsb1
             } 
         } 
 
-        // 
-
-
- 
-
-
- 
- 
-
- 
         /// <summary>
         /// Raises the CleaningRow event for row recycling.
         /// </summary> 
@@ -2281,11 +2269,7 @@ namespace System.Windows.Controlsb1
         /// </summary> 
         protected virtual void OnCleaningRowDetails(DataGridRowDetailsEventArgs e) 
         {
-            EventHandler<DataGridRowDetailsEventArgs> handler = this.CleaningRowDetails; 
-            if (handler != null)
-            {
-                handler(this, e); 
-            }
+            this.CleaningRowDetails?.Invoke(this, e);
         }
  
         /// <summary> 
@@ -2293,11 +2277,7 @@ namespace System.Windows.Controlsb1
         /// </summary> 
         protected virtual void OnCommitCellEdit(DataGridCellEventArgs e)
         {
-            EventHandler<DataGridCellEventArgs> handler = this.CommitCellEdit; 
-            if (handler != null)
-            {
-                handler(this, e); 
-            } 
+            this.CommitCellEdit?.Invoke(this, e);
         }
  
         /// <summary>
@@ -2305,11 +2285,7 @@ namespace System.Windows.Controlsb1
         /// </summary> 
         protected virtual void OnCommittingCellEdit(DataGridCellCancelEventArgs e)
         {
-            EventHandler<DataGridCellCancelEventArgs> handler = this.CommittingCellEdit; 
-            if (handler != null) 
-            {
-                handler(this, e); 
-            }
+            this.CommittingCellEdit?.Invoke(this, e);
         }
  
         /// <summary>
@@ -2317,11 +2293,7 @@ namespace System.Windows.Controlsb1
         /// </summary> 
         protected virtual void OnCommittingRowEdit(DataGridRowCancelEventArgs e) 
         {
-            EventHandler<DataGridRowCancelEventArgs> handler = this.CommittingRowEdit; 
-            if (handler != null)
-            {
-                handler(this, e); 
-            }
+            this.CommittingRowEdit?.Invoke(this, e);
         }
  
         /// <summary> 
@@ -2329,11 +2301,7 @@ namespace System.Windows.Controlsb1
         /// </summary> 
         protected virtual void OnCurrentCellChanged(EventArgs e)
         {
-            EventHandler<EventArgs> handler = this.CurrentCellChanged; 
-            if (handler != null)
-            {
-                handler(this, e); 
-            } 
+            this.CurrentCellChanged?.Invoke(this, e);
         }
  
         /// <summary>
@@ -2341,11 +2309,7 @@ namespace System.Windows.Controlsb1
         /// </summary> 
         protected virtual void OnDataError(DataGridDataErrorEventArgs e)
         {
-            EventHandler<DataGridDataErrorEventArgs> handler = this.DataError; 
-            if (handler != null) 
-            {
-                handler(this, e); 
-            }
+            this.DataError?.Invoke(this, e);
         }
  
         //
@@ -2362,12 +2326,8 @@ namespace System.Windows.Controlsb1
         /// Raises the PrepareCellEdit event. 
         /// </summary> 
         protected virtual void OnPrepareCellEdit(DataGridPrepareCellEditEventArgs e)
-        { 
-            EventHandler<DataGridPrepareCellEditEventArgs> handler = this.PrepareCellEdit;
-            if (handler != null)
-            { 
-                handler(this, e);
-            }
+        {
+            this.PrepareCellEdit?.Invoke(this, e);
         } 
  
         /// <summary>
@@ -2391,11 +2351,7 @@ namespace System.Windows.Controlsb1
         /// </summary>
         protected virtual void OnPreparingRowDetails(DataGridRowDetailsEventArgs e) 
         {
-            EventHandler<DataGridRowDetailsEventArgs> handler = this.PreparingRowDetails;
-            if (handler != null) 
-            {
-                handler(this, e);
-            } 
+            this.PreparingRowDetails?.Invoke(this, e);
         } 
 
         /// <summary> 
@@ -2407,11 +2363,7 @@ namespace System.Windows.Controlsb1
             this.CoerceSelectedItem(); 
  
             this._selectionChanged = false;
-            EventHandler<EventArgs> handler = this.SelectionChanged; 
-            if (handler != null)
-            {
-                handler(this, e); 
-            }
+            this.SelectionChanged?.Invoke(this, e);
         }
  
         // 
